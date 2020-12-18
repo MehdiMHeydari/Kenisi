@@ -1,8 +1,10 @@
 package org.headroyce.kenisi;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
@@ -63,4 +65,13 @@ public class DrawingWorkspace extends Pane {
     public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
         openPlanetHandler = handler;
     }
+
+    private class AnimTimer extends AnimationTimer {
+        @Override
+        public void handle(long now) {
+
+        }
+    }
+
+
 }

@@ -100,15 +100,6 @@ public class PlanetIndex extends VBox {
         }
     }
 
-    public void removePlan (PlansIndexItem p) {
-        for (int i=0; i<this.getChildren().size(); i++) {
-            if (this.getChildren().get(i) == p) {
-                this.getChildren().remove(i);
-                break;
-            }
-        }
-    }
-
     public void setOnPlanetSelected( EventHandler<ActionEvent> handler ){
         this.selectedPlanetEventHandler = handler;
     }
@@ -145,7 +136,7 @@ public class PlanetIndex extends VBox {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     //Remove planet if clicked
-                    removePlan(PlansIndexItem.this);
+                    PlanetIndex.this.plansArea.getChildren().remove(PlansIndexItem.this);
                 }
             });
 
