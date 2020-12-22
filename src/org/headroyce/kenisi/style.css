@@ -1,0 +1,36 @@
+.button{
+    -fx-background-color:rgba(33, 168, 60, 0.75);
+    -fx-text-fill: black;
+    -fx-padding: 10px;
+    -fx-border-color: black;
+    -fx-border-width: 2 2 2 2;
+    -fx-max-width: 42;
+    -fx-max-height: 42;
+}
+
+.button:hover {
+    -fx-background-color: rgba(24, 24, 24, 0.75);
+}
+
+.button.active {
+    -fx-border-color: black black black rgb(33, 168, 60);
+    -fx-background-color: rgba(24, 24, 24, 0.75);
+}
+
+.planetsIndex {
+    -fx-border-width: 1 1 1 1;
+    -fx-border-color: black;
+}
+.planetsIndexHeader {
+    -fx-background-color: rgba(24, 24, 24, 0.75);
+    -fx-text-fill: white;
+    -fx-min-height: 52;
+    -fx-font-size: 16pt;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+}
+.planetsIndexTools{
+    -fx-background-color: rgba(33, 168, 60, 0.75);
+    -fx-border-width: 1;
+    -fx-border-color: black;
+}

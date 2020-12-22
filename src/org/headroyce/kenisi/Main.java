@@ -3,16 +3,14 @@ package org.headroyce.kenisi;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main  extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = new MainWorkspace();
-        Parent root = new BorderPane();
-        //root.getStylesheets().add(DrawingWorkspace.class.getResource("style.css").toExternalForm());
+        Parent root = new MainWorkspace();
+        root.getStylesheets().add(DrawingWorkspace.class.getResource("style.css").toExternalForm());
 
         Scene scene = new Scene(root, 800, 600);
 
