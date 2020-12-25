@@ -10,7 +10,7 @@ public class Body {
     private double velX, velY; //the x and y velocity of the body
     public Body (double radius, double posX, double posY, double velX, double velY) { //initialize org.headroyce.kenisi.Body object with attributes from UI
         this.radius = radius;
-        this.mass = radius * 500; //1r = 2100, density = 500kg/km^3, mass = 500 * r
+        this.mass = radius * 500; //r = 2000t + 100, density = 500kg/km^3, mass = 500 * r
         this.x = posX;
         this.y = posY;
         this.velX = velX;

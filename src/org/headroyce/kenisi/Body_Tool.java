@@ -1,11 +1,10 @@
 package org.headroyce.kenisi;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.canvas.Canvas;
 
 public class Body_Tool {
 
-    private Linkedlist<Body> bodies;
+    private final Linkedlist<Body> bodies;
     private boolean mouseDown;
     private final Canvas view;
     private double startX, startY; //the starting point of the mouse
