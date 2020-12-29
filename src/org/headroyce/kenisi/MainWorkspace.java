@@ -20,18 +20,20 @@ public class MainWorkspace extends BorderPane {
         plansIndex = new PlanetIndex();
         plansIndex.prefWidthProperty().bind(this.widthProperty().divide(3));
 
-        dw.setOnOpenPlanetIndex(actionEvent -> {
-            if( plansIndex.getParent() != null ){
-                setLeft(null);
-            }
-            else {
-                setLeft(plansIndex);
+        dw.setOnOpenPlanetIndex(new EventHandler<>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (plansIndex.getParent() != null) {
+                    setLeft(null);
+                } else {
+                    setLeft(plansIndex);
+                    setCenter(new DrawingWorkspace());
+                }
             }
         });
 
-        plansIndex.setOnPlanetSelected(event -> dw.setActivePlanet((Plan)event.getSource()));
-
         this.setCenter(dw);
     }
+
 }
 
