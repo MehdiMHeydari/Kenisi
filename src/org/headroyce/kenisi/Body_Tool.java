@@ -2,16 +2,17 @@ package org.headroyce.kenisi;
 
 import javafx.scene.canvas.Canvas;
 
+import java.util.LinkedList;
+
 public class Body_Tool {
 
-    private final Linkedlist<Body> bodies;
+    public static final Linkedlist<Body> bodies = new Linkedlist<>();
     private boolean mouseDown;
     private final Canvas view;
     private double startX, startY; //the starting point of the mouse
 
     public Body_Tool (Canvas view) {
         this.view = view;
-        bodies = new Linkedlist<>();
     }
 
     /**
