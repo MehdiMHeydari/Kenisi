@@ -20,21 +20,18 @@ public class MainWorkspace extends BorderPane {
         plansIndex = new PlanetIndex();
         plansIndex.prefWidthProperty().bind(this.widthProperty().divide(3));
 
-        //this method is never getting called
-        dw.setOnOpenPlanetIndex(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if( plansIndex.getParent() != null ){
-                    setLeft(null);
-                }
-                else {
-                    setLeft(plansIndex);
-                }
+        dw.setOnOpenPlanetIndex(actionEvent -> {
+            if( plansIndex.getParent() != null ){
+                setLeft(null);
+            }
+            else {
+                setLeft(plansIndex);
             }
         });
 
+        plansIndex.setOnPlanetSelected(event -> dw.setActivePlanet((Plan)event.getSource()));
+
         this.setCenter(dw);
     }
-
 }
 

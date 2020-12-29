@@ -5,11 +5,9 @@ package org.headroyce.kenisi;
  */
 public class Body {
     public final double radius; //radius is more useful than area, use radius to draw body
-    public final double mass; //use mass to determine gravitational well
     private final double[] pos; //array implementation of 2D vector, pos[0] = x, pos[1] = 1
-    public Body (double radius, double mass, double posX, double posY) { //initialize org.headroyce.kenisi.Body object with attributes from UI
+    public Body (double radius, double posX, double posY) { //initialize org.headroyce.kenisi.Body object with attributes from UI
         this.radius = radius;
-        this.mass = mass;
         this.pos = new double[]{posX, posY};
     }
 

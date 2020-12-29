@@ -1,10 +1,8 @@
 package org.headroyce.kenisi;
 
-import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
@@ -13,10 +11,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 
 public class DrawingWorkspace extends Pane {
+
     private Button openPlanet;
     private EventHandler<ActionEvent> openPlanetHandler;
+    private DrawingArea drawingArea;
 
     public DrawingWorkspace() {
+        drawingArea = new DrawingArea(this);
+
         Button delete = new Button();
         delete.setTooltip(new Tooltip("Delete"));
         Image img = new Image(getClass().getResourceAsStream("/images/trash.png"));
@@ -28,10 +30,10 @@ public class DrawingWorkspace extends Pane {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
             }
         });
         delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
-        this.getChildren().add(delete);
 
         openPlanet = new Button();
         openPlanet.setTooltip(new Tooltip("Planet"));
@@ -41,37 +43,36 @@ public class DrawingWorkspace extends Pane {
         imageView.setFitHeight(30);
         openPlanet.setGraphic(imageView);
         openPlanet.setLayoutY(0);
-        openPlanet.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (openPlanet.getStyleClass().contains("active")) {
-                    openPlanet.getStyleClass().remove("active");
-                    openPlanet.setEffect(null);
-                }
-                else {
-                    openPlanet.getStyleClass().add("active");
-                    ColorAdjust ca = new ColorAdjust();
-                    ca.setBrightness(-0.5);
-                    openPlanet.setEffect(ca);
-                }
-                // openPlanetHandler is null here
-                if (openPlanetHandler != null) {
-                    openPlanetHandler.handle(actionEvent);
-                }
+        openPlanet.setOnAction(actionEvent -> {
+            if (openPlanet.getStyleClass().contains("active")) {
+                openPlanet.getStyleClass().remove("active");
+                openPlanet.setEffect(null);
+            }
+            else {
+                openPlanet.getStyleClass().add("active");
+                ColorAdjust ca = new ColorAdjust();
+                ca.setBrightness(-0.5);
+                openPlanet.setEffect(ca);
+            }
+            if (openPlanetHandler != null) {
+                openPlanetHandler.handle(actionEvent);
             }
         });
+
+        drawingArea.prefHeightProperty().bind(this.heightProperty());
+        drawingArea.prefWidthProperty().bind(this.widthProperty());
+
+        this.getChildren().add(drawingArea);
+
+        this.getChildren().add(delete);
+
         this.getChildren().add(openPlanet);
     }
     public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
         openPlanetHandler = handler;
     }
 
-    private class AnimTimer extends AnimationTimer {
-        @Override
-        public void handle(long now) {
-
-        }
+    public void setActivePlanet( Plan p ){
+        drawingArea.setActivePlanet(p);
     }
-
-
 }
