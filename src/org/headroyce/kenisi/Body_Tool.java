@@ -45,7 +45,7 @@ public class Body_Tool {
             double velX = 1000 * (x - this.startX) / duration; //velX = x2 - x1 / time in seconds
             bodies.add(new Body(radius, x, y, velX, velY));
             mouseDown = false;
-            System.out.println(radius + " " + velX + " " + velY + " i get bitches bitch");
+            System.out.println(radius + " " + velX + " " + velY);
             return true;
         }
         return false;
