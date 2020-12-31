@@ -12,9 +12,9 @@ import javafx.scene.image.ImageView;
 
 public class DrawingWorkspace extends Pane {
 
-    private Button openPlanet;
+    private final Button openPlanet;
     private EventHandler<ActionEvent> openPlanetHandler;
-    private DrawingArea drawingArea;
+    private final DrawingArea drawingArea;
 
     public DrawingWorkspace() {
         drawingArea = new DrawingArea(this);
@@ -27,11 +27,8 @@ public class DrawingWorkspace extends Pane {
         imageView.setFitWidth(30);
         delete.setGraphic(imageView);
         delete.setAlignment(Pos.BOTTOM_LEFT);
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
+        delete.setOnAction(actionEvent -> {
 
-            }
         });
         delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
 
