@@ -1,13 +1,10 @@
 package org.headroyce.kenisi;
 
 
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 
 import java.awt.*;
-import java.util.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.LinkedList;
 
 
 // the whole screen aka game area

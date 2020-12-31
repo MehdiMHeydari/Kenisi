@@ -15,7 +15,6 @@ public class MainWorkspace extends BorderPane {
                 setLeft(null);
             } else {
                 setLeft(plansIndex);
-                setCenter(new DrawingWorkspace());
             }
         });
 

@@ -21,15 +21,8 @@ public class Body {
     }
 
     /**
-     * getter for 2D coordinates of body
-     * @return pos, the vector containing the x and y coordinates of body
-     * worst case time complexity O(1)
-     */
-    public double[] getPos () { return new double[]{this.getX(), this.getY()}; }
-
-    /**
      * getter for x position of body
-     * @return pos[0], the x position of the body
+     * @return the x position of the body
      * worst case time complexity O(1)
      */
     public double getX () { return this.x; }
@@ -37,7 +30,7 @@ public class Body {
 
     /**
      * getter for y position of body
-     * @return pos[1], the y position of the body
+     * @return the y position of the body
      * worst case time complexity O(1)
      */
     public double getY () { return this.y; }
