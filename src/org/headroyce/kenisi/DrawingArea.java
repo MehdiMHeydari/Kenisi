@@ -33,7 +33,7 @@ public class DrawingArea extends StackPane {
     public DrawingArea(DrawingWorkspace mw) {
         mouseHeld = false;
 
-        tool = new Body_Tool(mainCanvas);
+        tool = new Body_Tool();
 
         mainWorkspace = mw;
 
@@ -95,18 +95,16 @@ public class DrawingArea extends StackPane {
             } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
                 tool.mouseRelease(event.getSceneX(), event.getSceneY(), Duration.between(time, Instant.now()).toMillis());
                 mouseHeld = false;
-            } else {
-                if (mouseHeld) {
-                    Circle circle = new Circle();
-                    radius = Duration.between(time, Instant.now()).toMillis();
-                    circle.setCenterX(event.getSceneX());
-                    circle.setCenterY(event.getSceneY());
-                    circle.setRadius(radius);
-                    circle.setFill(Color.BLACK);
-                    mainWorkspace.getChildren().add(circle);
-                }
-                renderWorld();
+            } else if (mouseHeld) {
+                Circle circle = new Circle();
+                radius = (Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+                circle.setCenterX(event.getSceneX());
+                circle.setCenterY(event.getSceneY());
+                circle.setRadius(radius);
+                circle.setFill(Color.BLACK);
+                mainWorkspace.getChildren().add(circle);
             }
+            renderWorld();
         }
     }
 
