@@ -6,13 +6,13 @@ import java.util.LinkedList;
 
 public class Body_Tool {
 
-    public static final LinkedList<Body> bodies = new LinkedList<>();
+    public static final Linkedlist<Body> bodies = new Linkedlist<>();
     private boolean mouseDown;
-   // private final Canvas view;
+    private final Canvas view;
     private double startX, startY; //the starting point of the mouse
 
-    public Body_Tool () {
-
+    public Body_Tool (Canvas view) {
+        this.view = view;
     }
 
     /**
