@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-
 import java.time.Duration;
 import java.time.Instant;
 
@@ -29,7 +28,11 @@ public class DrawingArea extends StackPane {
 
     private double radius;
 
-    public DrawingArea(DrawingWorkspace mw){
+    private boolean mouseHeld;
+
+    public DrawingArea(DrawingWorkspace mw) {
+        mouseHeld = false;
+
         tool = new Body_Tool(mainCanvas);
 
         mainWorkspace = mw;
@@ -53,16 +56,16 @@ public class DrawingArea extends StackPane {
     /**
      * Render the viewable canvas
      */
-    public void renderWorld(){
+    public void renderWorld() {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-        gc.clearRect(0,0, mainCanvas.getWidth(), mainCanvas.getHeight());
+        gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
     }
 
     private class AnimTimer extends AnimationTimer {
         @Override
         public void handle(long now) {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-            gc.clearRect(0,0, mainCanvas.getWidth(), mainCanvas.getHeight());
+            gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
             for (Body i : tool.bodies) {
                 Circle circle = new Circle();
@@ -74,45 +77,55 @@ public class DrawingArea extends StackPane {
                 mainWorkspace.getChildren().add(circle);
             }
         }
-    }
 
 
-    /**
-     * Helps to handle all of the mouse events on the canvas
-     */
-    private class MouseHandler implements EventHandler<MouseEvent> {
-        AnimTimer john = new AnimTimer();
+        /**
+         * Helps to handle all of the mouse events on the canvas
+         */
+        private class MouseHandler implements EventHandler<MouseEvent> {
 
-        @Override
-        public void handle(MouseEvent event) {
-            if(event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
-                time = Instant.now();
-                if (tool.mouseClick(event.getSceneX(), event.getSceneY())) {
-                    return;
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
+                    time = Instant.now();
+                    mouseHeld = true;
+                    if (tool.mouseClick(event.getSceneX(), event.getSceneY())) {
+                        return;
+                    }
+                } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+                    tool.mouseRelease(event.getSceneX(), event.getSceneY(), Duration.between(time, Instant.now()).toMillis());
+                    mouseHeld = false;
+                } else {
+                    if (mouseHeld) {
+                        Circle circle = new Circle();
+                        radius = Duration.between(time, Instant.now()).toMillis();
+                        circle.setCenterX(event.getSceneX());
+                        circle.setCenterY(event.getSceneY());
+                        circle.setRadius(radius);
+                        circle.setFill(Color.BLACK);
+                        mainWorkspace.getChildren().add(circle);
+                    }
+                    renderWorld();
                 }
             }
-            else if(event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                tool.mouseRelease(event.getSceneX(), event.getSceneY(), Duration.between(time, Instant.now()).toMillis());
-            }
-            else {
-                john.handle(17) ;
-            }
+        }
+
+        public void delete() {
+
+            renderWorld();
+        }
+
+        public void setActivePlanet(Plan p) {
+            activePlan = p;
+
+            renderWorld();
+        }
+
+        public void escape() {
+
             renderWorld();
         }
     }
-    public void delete() {
-
-        renderWorld();
-    }
-
-    public void setActivePlanet(Plan p) {
-        activePlan = p;
-
-        renderWorld();
-    }
-
-    public void escape() {
-
-        renderWorld();
-    }
 }
+
+
