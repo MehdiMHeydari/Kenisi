@@ -1,7 +1,5 @@
 package org.headroyce.kenisi;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -10,15 +8,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
 public class PlanetIndex extends VBox {
-    private VBox plansArea;
-    private Button addButton, minusButton, sortingButton;
+    private final VBox plansArea;
     private ArrayList<Plan> plans;
 
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
@@ -32,33 +28,27 @@ public class PlanetIndex extends VBox {
         title.getStyleClass().add("planetsIndexHeader");
         tools.getStyleClass().add("planetsIndexTools");
 
-        addButton = new Button();
+        Button addButton = new Button();
         addButton.setTooltip(new Tooltip("Add"));
         Image img = new Image(getClass().getResourceAsStream("/images/plus-square.png"));
         ImageView imageView = new ImageView(img);
         imageView.setFitWidth(30);
         imageView.setFitHeight(30);
         addButton.setGraphic(imageView);
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Plan newPlan = new Plan(null);
-                addPlan(newPlan);
-            }
+        addButton.setOnAction(actionEvent -> {
+            Plan newPlan = new Plan(null);
+            addPlan(newPlan);
         });
 
-        sortingButton = new Button();
+        Button sortingButton = new Button();
         sortingButton.setTooltip(new Tooltip("Sort"));
         img = new Image(getClass().getResourceAsStream("/images/sort.png"));
         imageView = new ImageView(img);
         imageView.setFitWidth(30);
         imageView.setFitHeight(30);
         sortingButton.setGraphic(imageView);
-        sortingButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
+        sortingButton.setOnAction(actionEvent -> {
 
-            }
         });
 
         Region spacer = new Region();
@@ -80,14 +70,11 @@ public class PlanetIndex extends VBox {
         guiItem.setPrefHeight(50);
 
         // If the item is clicked on then fire the PlanSelection Event
-        guiItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if( selectedPlanetEventHandler != null ) {
-                    PlansIndexItem pi = (PlansIndexItem) event.getSource();
-                    ActionEvent e = new ActionEvent(pi.plan, Event.NULL_SOURCE_TARGET);
-                    selectedPlanetEventHandler.handle(e);
-                }
+        guiItem.setOnMouseClicked(event -> {
+            if( selectedPlanetEventHandler != null ) {
+                PlansIndexItem pi = (PlansIndexItem) event.getSource();
+                ActionEvent e = new ActionEvent(pi.plan, Event.NULL_SOURCE_TARGET);
+                selectedPlanetEventHandler.handle(e);
             }
         });
 
@@ -125,19 +112,16 @@ public class PlanetIndex extends VBox {
 //            imageView.setFitHeight(30);
 //            info.setGraphic(imageView);
 
-            minusButton = new Button();
+            Button minusButton = new Button();
             minusButton.setTooltip(new Tooltip("Minus"));
             Image img = new Image(getClass().getResourceAsStream("/images/minus-square.png"));
             ImageView imageView = new ImageView(img);
             imageView.setFitWidth(30);
             imageView.setFitHeight(30);
             minusButton.setGraphic(imageView);
-            minusButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    //Remove planet if clicked
-                    PlanetIndex.this.plansArea.getChildren().remove(PlansIndexItem.this);
-                }
+            minusButton.setOnAction(actionEvent -> {
+                //Remove planet if clicked
+                PlanetIndex.this.plansArea.getChildren().remove(PlansIndexItem.this);
             });
 
             this.setAlignment(Pos.CENTER);
@@ -145,13 +129,10 @@ public class PlanetIndex extends VBox {
             title.setMaxWidth(Double.MAX_VALUE);
             HBox.setMargin(title, new Insets(5,5,5,5));
             HBox.setHgrow(title, Priority.ALWAYS);
-            title.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observableValue, String oldVal, String newVal) {
-                    // The text-field has changed (title)
-                    // So remove the element from the BST, change the title, and then add it back
-                    PlansIndexItem.this.plan.setTitle(newVal);
-                }
+            title.textProperty().addListener((observableValue, oldVal, newVal) -> {
+                // The text-field has changed (title)
+                // So remove the element from the BST, change the title, and then add it back
+                PlansIndexItem.this.plan.setTitle(newVal);
             });
             selected.prefHeightProperty().bind(this.heightProperty());
             HBox.setMargin(selected, new Insets(5,5,5,5));

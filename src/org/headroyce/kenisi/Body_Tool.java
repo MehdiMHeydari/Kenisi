@@ -28,10 +28,8 @@ public class Body_Tool {
      * @param x the x coordinate of the mouse
      * @param y the y coordinate of the mouse
      * @param duration how long the mouse was held down in milliseconds
-     * @return boolean: true if mouse was down and false if it wasn't
-     * worst case time complexity O(1), adding to linked list is 0(1) worst case
      */
-    public boolean mouseRelease (double x, double y, long duration) {
+    public void mouseRelease (double x, double y, long duration) {
         if (mouseDown = true) {
             long radius = duration * 2 + 100; //duration / 1000 = time in seconds, radius = 2000t + 100 where t is time in seconds
             double velY = 1000 * (y - this.startY) / duration; //velocity = l1 norm of space with velX and velY vectors
@@ -39,8 +37,6 @@ public class Body_Tool {
             bodies.add(new Body(radius, x, y, velX, velY));
             System.out.println(radius + " " + velX + " " + velY);
             mouseDown = false;
-            return true;
         }
-        return false;
     }
 }

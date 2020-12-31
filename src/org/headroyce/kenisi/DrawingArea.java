@@ -14,17 +14,17 @@ import java.time.Instant;
 public class DrawingArea extends StackPane {
 
     // The main drawing canvas
-    private Canvas mainCanvas;
+    private final Canvas mainCanvas;
 
     // The plan to draw
     private Plan activePlan;
 
     // All the selected shapes in the world
-    private DrawingWorkspace mainWorkspace;
+    private final DrawingWorkspace mainWorkspace;
 
     private Instant time;
 
-    private Body_Tool tool;
+    private final Body_Tool tool;
 
     private double radius;
 
@@ -67,7 +67,7 @@ public class DrawingArea extends StackPane {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
-            for (Body i : tool.bodies) {
+            Body_Tool.bodies.forEach(i -> {
                 Circle circle = new Circle();
                 radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 20);
                 circle.setCenterX(i.getX());
@@ -75,7 +75,7 @@ public class DrawingArea extends StackPane {
                 circle.setRadius(radius);
                 circle.setFill(Color.BLACK);
                 mainWorkspace.getChildren().add(circle);
-            }
+            });
         }
     }
 
