@@ -68,6 +68,7 @@ public class DrawingWorkspace extends Pane {
 
         this.getChildren().add(openPlanet);
     }
+    
     public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
         openPlanetHandler = handler;
     }
