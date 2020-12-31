@@ -1,12 +1,10 @@
 package org.headroyce.kenisi;
 
-import javafx.scene.canvas.Canvas;
-
 import java.util.LinkedList;
 
 public class Body_Tool {
 
-    public static final Linkedlist<Body> bodies = new Linkedlist<>();
+    public static final LinkedList<Body> bodies = new LinkedList<>();
     private boolean mouseDown;
     private double startX, startY; //the starting point of the mouse
 
@@ -39,8 +37,8 @@ public class Body_Tool {
             double velY = 1000 * (y - this.startY) / duration; //velocity = l1 norm of space with velX and velY vectors
             double velX = 1000 * (x - this.startX) / duration; //velX = x2 - x1 / time in seconds
             bodies.add(new Body(radius, x, y, velX, velY));
-            mouseDown = false;
             System.out.println(radius + " " + velX + " " + velY);
+            mouseDown = false;
             return true;
         }
         return false;

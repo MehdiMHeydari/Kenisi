@@ -1,5 +1,8 @@
 package org.headroyce.kenisi;
 
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  *
  */
@@ -31,6 +34,7 @@ public class Body {
      */
     public double getX () { return this.x; }
 
+
     /**
      * getter for y position of body
      * @return pos[1], the y position of the body
@@ -38,6 +42,9 @@ public class Body {
      */
     public double getY () { return this.y; }
 
+    public double getVelX () { return this.velX; }
+
+    public double getVelY () { return this.velY; }
     /**
      * moves body based on x and y velocity
      * worst case time complexity O(1)
@@ -45,6 +52,20 @@ public class Body {
     public void move () {
         this.x += this.velX;
         this.y += this.velY;
+    }
+
+    public boolean collision (Body localplanet) {
+        double primX = this.x;
+        double primY = this.y;
+        double localX = localplanet.getX();
+        double localY = localplanet.getY();
+
+        if (((localX - localplanet.radius <= primX + this.radius) || (localX + localplanet.radius >= primX - this.radius))) {
+            if ((localY - localplanet.radius <= primY + this.radius) || (localY + localplanet.radius >= primY - this.radius)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -59,5 +80,9 @@ public class Body {
         double force = 0.000000000667 * this.mass * body.mass / Math.pow(distance, 2); //multiply mass of both bodies by gravitational constant and divide by distance squared
         this.velX += force * xDiff; //scale the j vector by force
         this.velY += force * yDiff; //scale the i vector by force
+    }
+
+    public void render( Canvas canvas ){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
     }
 }

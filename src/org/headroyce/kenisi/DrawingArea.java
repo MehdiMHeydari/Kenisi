@@ -86,17 +86,18 @@ public class DrawingArea extends StackPane {
 
         @Override
         public void handle(MouseEvent event) {
+            Circle circle = new Circle();
             if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
                 time = Instant.now();
                 mouseHeld = true;
                 if (tool.mouseClick(event.getSceneX(), event.getSceneY())) {
                     return;
                 }
-            } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+            }
+            if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
                 tool.mouseRelease(event.getSceneX(), event.getSceneY(), Duration.between(time, Instant.now()).toMillis());
                 mouseHeld = false;
             } else if (mouseHeld) {
-                Circle circle = new Circle();
                 radius = (Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
                 circle.setCenterX(event.getSceneX());
                 circle.setCenterY(event.getSceneY());
