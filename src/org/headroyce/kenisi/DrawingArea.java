@@ -30,7 +30,7 @@ public class DrawingArea extends StackPane {
     private double radius;
 
     public DrawingArea(DrawingWorkspace mw){
-        tool = new Body_Tool(mainCanvas);
+        tool = new Body_Tool();
 
         mainWorkspace = mw;
 
