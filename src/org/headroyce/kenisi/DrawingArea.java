@@ -77,54 +77,53 @@ public class DrawingArea extends StackPane {
                 mainWorkspace.getChildren().add(circle);
             }
         }
+    }
 
+    /**
+     * Helps to handle all of the mouse events on the canvas
+     */
+    private class MouseHandler implements EventHandler<MouseEvent> {
 
-        /**
-         * Helps to handle all of the mouse events on the canvas
-         */
-        private class MouseHandler implements EventHandler<MouseEvent> {
-
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
-                    time = Instant.now();
-                    mouseHeld = true;
-                    if (tool.mouseClick(event.getSceneX(), event.getSceneY())) {
-                        return;
-                    }
-                } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                    tool.mouseRelease(event.getSceneX(), event.getSceneY(), Duration.between(time, Instant.now()).toMillis());
-                    mouseHeld = false;
-                } else {
-                    if (mouseHeld) {
-                        Circle circle = new Circle();
-                        radius = Duration.between(time, Instant.now()).toMillis();
-                        circle.setCenterX(event.getSceneX());
-                        circle.setCenterY(event.getSceneY());
-                        circle.setRadius(radius);
-                        circle.setFill(Color.BLACK);
-                        mainWorkspace.getChildren().add(circle);
-                    }
-                    renderWorld();
+        @Override
+        public void handle(MouseEvent event) {
+            if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
+                time = Instant.now();
+                mouseHeld = true;
+                if (tool.mouseClick(event.getSceneX(), event.getSceneY())) {
+                    return;
                 }
+            } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+                tool.mouseRelease(event.getSceneX(), event.getSceneY(), Duration.between(time, Instant.now()).toMillis());
+                mouseHeld = false;
+            } else {
+                if (mouseHeld) {
+                    Circle circle = new Circle();
+                    radius = Duration.between(time, Instant.now()).toMillis();
+                    circle.setCenterX(event.getSceneX());
+                    circle.setCenterY(event.getSceneY());
+                    circle.setRadius(radius);
+                    circle.setFill(Color.BLACK);
+                    mainWorkspace.getChildren().add(circle);
+                }
+                renderWorld();
             }
         }
+    }
 
-        public void delete() {
+    public void delete() {
 
-            renderWorld();
-        }
+        renderWorld();
+    }
 
-        public void setActivePlanet(Plan p) {
-            activePlan = p;
+    public void setActivePlanet(Plan p) {
+        activePlan = p;
 
-            renderWorld();
-        }
+        renderWorld();
+    }
 
-        public void escape() {
+    public void escape() {
 
-            renderWorld();
-        }
+        renderWorld();
     }
 }
 
