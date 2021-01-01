@@ -7,9 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
-import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -28,6 +26,7 @@ public class DrawingArea extends StackPane {
     private final Body_Tool tool;
     private double radius;
     private boolean mouseHeld;
+    private final MouseHandler handler;
 
     public DrawingArea(DrawingWorkspace mw) {
         mouseHeld = false;
@@ -44,7 +43,7 @@ public class DrawingArea extends StackPane {
         mainCanvas.heightProperty().bind(this.heightProperty());
 
         // Attach mouse handlers to the canvas
-        EventHandler<MouseEvent> handler = new MouseHandler();
+        handler = new MouseHandler();
         mainCanvas.addEventHandler(MouseEvent.MOUSE_PRESSED, handler);
         mainCanvas.addEventHandler(MouseEvent.MOUSE_RELEASED, handler);
         mainCanvas.addEventHandler(MouseEvent.MOUSE_MOVED, handler);
@@ -63,15 +62,14 @@ public class DrawingArea extends StackPane {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
             Body_Tool.bodies.forEach(i -> {
-                radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 7);
+                radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
                 //gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
                 gc.setFill(Color.BLACK);
                 gc.fillOval(i.getX(), i.getY(), radius, radius);
             });
             if (mouseHeld) {
-                radius = (Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 7);
-                Point p = MouseInfo.getPointerInfo().getLocation();
-                gc.fillOval(p.x, p.y, radius, radius);
+                radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+                gc.fillOval(handler.getX(), handler.getY(), radius, radius);
             }
         }
     }
@@ -80,22 +78,28 @@ public class DrawingArea extends StackPane {
      * Helps to handle all of the mouse events on the canvas
      */
     private class MouseHandler implements EventHandler<MouseEvent> {
+        private double x, y;
 
         @Override
         public void handle(MouseEvent event) {
+            this.x = event.getSceneX();
+            this.y = event.getSceneY();
             if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
                 time = Instant.now();
-                if (tool.mouseClick(event.getX(), event.getY())) {
+                if (tool.mouseClick(this.x, this.y)) {
                     mouseHeld = true;
                     return;
                 }
             }
             if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                if (tool.mouseRelease(event.getX(), event.getY(), Duration.between(time, Instant.now()).toMillis())) {
+                if (tool.mouseRelease(this.x, this.y, Duration.between(time, Instant.now()).toMillis())) {
                     mouseHeld = false;
                 }
             }
         }
+        public double getX () { return this.x; }
+
+        public double getY () { return this.y; }
     }
 
     public void delete() {
