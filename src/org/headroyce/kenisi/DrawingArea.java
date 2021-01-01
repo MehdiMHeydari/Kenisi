@@ -8,6 +8,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
+import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -23,21 +25,22 @@ public class DrawingArea extends StackPane {
     private final DrawingWorkspace mainWorkspace;
 
     private Instant time;
-
     private final Body_Tool tool;
-
     private double radius;
-
     private boolean mouseHeld;
+    private boolean pause;
+    private Logic logic;
 
     public DrawingArea(DrawingWorkspace mw) {
         mouseHeld = false;
-
+        pause = false;
         tool = new Body_Tool();
-
         mainWorkspace = mw;
-
         mainCanvas = new Canvas();
+        AnimTimer timer = new AnimTimer();
+        logic = new Logic();
+        timer.start();
+        logic.start();
 
         // Force the canvas to resize to the screen's size
         mainCanvas.widthProperty().bind(this.widthProperty());
@@ -56,26 +59,23 @@ public class DrawingArea extends StackPane {
     /**
      * Render the viewable canvas
      */
-    public void renderWorld() {
-        GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
-    }
 
     private class AnimTimer extends AnimationTimer {
         @Override
         public void handle(long now) {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
-
             Body_Tool.bodies.forEach(i -> {
-                Circle circle = new Circle();
-                radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 20);
-                circle.setCenterX(i.getX());
-                circle.setCenterY(i.getY());
-                circle.setRadius(radius);
-                circle.setFill(Color.BLACK);
-                mainWorkspace.getChildren().add(circle);
+                radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 7);
+                //gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
+                gc.setFill(Color.BLACK);
+                gc.fillOval(i.getX(), i.getY(), radius, radius);
             });
+            if (mouseHeld) {
+                radius = (Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 7);
+                Point p = MouseInfo.getPointerInfo().getLocation();
+                gc.fillOval(p.x, p.y, radius, radius);
+            }
         }
     }
 
@@ -86,43 +86,42 @@ public class DrawingArea extends StackPane {
 
         @Override
         public void handle(MouseEvent event) {
-            Circle circle = new Circle();
-            if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
-                time = Instant.now();
-                mouseHeld = true;
-                if (tool.mouseClick(event.getSceneX(), event.getSceneY())) {
-                    return;
+            if (!pause) {
+                if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
+                    time = Instant.now();
+                    if (tool.mouseClick(event.getX(), event.getY())) {
+                        mouseHeld = true;
+                        return;
+                    }
+                }
+                if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+                    if (tool.mouseRelease(event.getX(), event.getY(), Duration.between(time, Instant.now()).toMillis())) {
+                        mouseHeld = false;
+                    }
                 }
             }
-            if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                tool.mouseRelease(event.getSceneX(), event.getSceneY(), Duration.between(time, Instant.now()).toMillis());
-                mouseHeld = false;
-            } else if (mouseHeld) {
-                radius = (Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
-                circle.setCenterX(event.getSceneX());
-                circle.setCenterY(event.getSceneY());
-                circle.setRadius(radius);
-                circle.setFill(Color.BLACK);
-                mainWorkspace.getChildren().add(circle);
-            }
-            renderWorld();
         }
     }
 
     public void delete() {
-
-        renderWorld();
     }
 
     public void setActivePlanet(Plan p) {
         activePlan = p;
-
-        renderWorld();
     }
 
     public void escape() {
+    }
 
-        renderWorld();
+    public void pause() {
+        if (!pause) {
+            pause = true;
+            logic.stop();
+        }
+        else {
+            pause = false;
+            logic.start();
+        }
     }
 }
 

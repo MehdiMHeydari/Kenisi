@@ -19,10 +19,22 @@ public class DrawingWorkspace extends Pane {
     public DrawingWorkspace() {
         drawingArea = new DrawingArea(this);
 
+        Button pause = new Button();
+        pause.setTooltip(new Tooltip("Pause"));
+        Image img = new Image(getClass().getResourceAsStream("/images/pause.png"));
+        ImageView imageView = new javafx.scene.image.ImageView(img);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        pause.setGraphic(imageView);
+        pause.layoutYProperty().bind(this.heightProperty().divide(2).subtract(pause.heightProperty().divide(2)));
+        pause.setOnAction(actionEvent -> {
+            drawingArea.pause();
+        });
+
         Button delete = new Button();
         delete.setTooltip(new Tooltip("Delete"));
-        Image img = new Image(getClass().getResourceAsStream("/images/trash.png"));
-        ImageView imageView = new javafx.scene.image.ImageView(img);
+        img = new Image(getClass().getResourceAsStream("/images/trash.png"));
+        imageView = new javafx.scene.image.ImageView(img);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         delete.setGraphic(imageView);
@@ -30,6 +42,7 @@ public class DrawingWorkspace extends Pane {
         delete.setOnAction(actionEvent -> {
 
         });
+        delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
 
         openPlanet = new Button();
         openPlanet.setTooltip(new Tooltip("Planet"));
@@ -59,13 +72,10 @@ public class DrawingWorkspace extends Pane {
         drawingArea.prefWidthProperty().bind(this.widthProperty());
 
         this.getChildren().add(drawingArea);
-
-        delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
+        this.getChildren().add(pause);
         this.getChildren().add(delete);
-
         this.getChildren().add(openPlanet);
     }
-
     public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
         openPlanetHandler = handler;
     }

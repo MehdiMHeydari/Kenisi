@@ -29,14 +29,15 @@ public class Body_Tool {
      * @param y the y coordinate of the mouse
      * @param duration how long the mouse was held down in milliseconds
      */
-    public void mouseRelease (double x, double y, long duration) {
+    public Boolean mouseRelease (double x, double y, long duration) {
         if (mouseDown = true) {
             long radius = duration * 2 + 100; //duration / 1000 = time in seconds, radius = 2000t + 100 where t is time in seconds
             double velY = 1000 * (y - this.startY) / duration; //velocity = l1 norm of space with velX and velY vectors
             double velX = 1000 * (x - this.startX) / duration; //velX = x2 - x1 / time in seconds
             bodies.add(new Body(radius, x, y, velX, velY));
-            System.out.println(radius + " " + velX + " " + velY);
             mouseDown = false;
+            return true;
         }
+        return false;
     }
 }

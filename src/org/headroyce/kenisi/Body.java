@@ -21,15 +21,8 @@ public class Body {
     }
 
     /**
-     * getter for 2D coordinates of body
-     * @return pos, the vector containing the x and y coordinates of body
-     * worst case time complexity O(1)
-     */
-    public double[] getPos () { return new double[]{this.getX(), this.getY()}; }
-
-    /**
      * getter for x position of body
-     * @return pos[0], the x position of the body
+     * @return the x position of the body
      * worst case time complexity O(1)
      */
     public double getX () { return this.x; }
@@ -37,7 +30,7 @@ public class Body {
 
     /**
      * getter for y position of body
-     * @return pos[1], the y position of the body
+     * @return the y position of the body
      * worst case time complexity O(1)
      */
     public double getY () { return this.y; }
@@ -50,8 +43,8 @@ public class Body {
      * worst case time complexity O(1)
      */
     public void move () {
-        this.x += this.velX;
-        this.y += this.velY;
+        this.x -= this.velX;
+        this.y -= this.velY;
     }
 
     public boolean collision (Body localplanet) {
@@ -75,11 +68,7 @@ public class Body {
         double yDiff = this.y - body.getY(); //scalar on i vector
         double distance = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)); //sum of i and j vectors
         double force = 0.000000000667 * this.mass * body.mass / Math.pow(distance, 2); //multiply mass of both bodies by gravitational constant and divide by distance squared
-        this.velX += force * xDiff; //scale the j vector by force
-        this.velY += force * yDiff; //scale the i vector by force
-    }
-
-    public void render( Canvas canvas ){
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        this.velX += force * xDiff / 17; //scale the j vector by force, convert seconds to milliseconds
+        this.velY += force * yDiff / 17; //scale the i vector by force, convert seconds to milliseconds
     }
 }
