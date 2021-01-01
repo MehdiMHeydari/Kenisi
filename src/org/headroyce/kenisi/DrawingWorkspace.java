@@ -30,7 +30,6 @@ public class DrawingWorkspace extends Pane {
         delete.setOnAction(actionEvent -> {
 
         });
-        delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
 
         openPlanet = new Button();
         openPlanet.setTooltip(new Tooltip("Planet"));
@@ -61,11 +60,12 @@ public class DrawingWorkspace extends Pane {
 
         this.getChildren().add(drawingArea);
 
+        delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
         this.getChildren().add(delete);
 
         this.getChildren().add(openPlanet);
     }
-    
+
     public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
         openPlanetHandler = handler;
     }

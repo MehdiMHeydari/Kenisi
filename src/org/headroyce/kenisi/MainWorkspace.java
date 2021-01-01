@@ -13,12 +13,11 @@ public class MainWorkspace extends BorderPane {
         dw.setOnOpenPlanetIndex(actionEvent -> {
             if (plansIndex.getParent() != null) {
                 setLeft(null);
-            } else {
+            }
+            else {
                 setLeft(plansIndex);
-                setCenter(new DrawingWorkspace());
             }
         });
-
         this.setCenter(dw);
     }
 

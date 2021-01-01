@@ -152,7 +152,6 @@ public class PlanetIndex extends VBox {
             this.setBorder(new Border(new BorderStroke(Color.BLACK,
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             this.getChildren().addAll(title, minusButton);
-
         }
     }
 }
