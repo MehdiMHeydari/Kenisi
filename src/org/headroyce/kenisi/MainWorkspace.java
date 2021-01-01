@@ -17,7 +17,6 @@ public class MainWorkspace extends BorderPane {
                 setLeft(plansIndex);
             }
         });
-
         this.setCenter(dw);
     }
 

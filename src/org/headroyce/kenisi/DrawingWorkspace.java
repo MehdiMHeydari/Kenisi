@@ -60,9 +60,7 @@ public class DrawingWorkspace extends Pane {
         drawingArea.prefWidthProperty().bind(this.widthProperty());
 
         this.getChildren().add(drawingArea);
-
         this.getChildren().add(delete);
-
         this.getChildren().add(openPlanet);
     }
     public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){

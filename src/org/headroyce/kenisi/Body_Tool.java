@@ -35,7 +35,6 @@ public class Body_Tool {
             double velY = 1000 * (y - this.startY) / duration; //velocity = l1 norm of space with velX and velY vectors
             double velX = 1000 * (x - this.startX) / duration; //velX = x2 - x1 / time in seconds
             bodies.add(new Body(radius, x, y, velX, velY));
-            System.out.println(radius + " " + velX + " " + velY);
             mouseDown = false;
             return true;
         }
