@@ -65,8 +65,8 @@ public class Body {
         double xDiff = this.x - body.getX(); //scalar on j vector
         double yDiff = this.y - body.getY(); //scalar on i vector
         double distance = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)); //sum of i and j vectors
-        double force = (0.667 * body.mass / this.mass) / Math.pow(distance, 2);
-        this.velX += force * -xDiff; //scale the j vector by force
-        this.velY += force * -yDiff; //scale the i vector by force
+        double force = (0.667408 * body.mass / this.mass) / (Math.pow(distance, 2) + 1);
+        this.velX -= force * xDiff; //scale the j vector by force
+        this.velY -= force * yDiff; //scale the i vector by force
     }
 }

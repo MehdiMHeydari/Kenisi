@@ -62,13 +62,12 @@ public class DrawingArea extends StackPane {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
             Body_Tool.bodies.forEach(i -> {
-                radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
                 //gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
                 gc.setFill(Color.BLACK);
-                gc.fillOval(i.getX(), i.getY(), radius, radius);
+                gc.fillOval(i.getX(), i.getY(), i.radius, i.radius);
             });
             if (mouseHeld) {
-                radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+                radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / 100.0;
                 gc.fillOval(handler.getX(), handler.getY(), radius, radius);
             }
         }
