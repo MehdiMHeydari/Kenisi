@@ -1,5 +1,7 @@
 package org.headroyce.kenisi;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.BorderPane;
 
 public class MainWorkspace extends BorderPane {
@@ -18,8 +20,10 @@ public class MainWorkspace extends BorderPane {
                 setLeft(plansIndex);
             }
         });
+
+        plansIndex.setOnPlanetSelected(event -> dw.setActivePlanet((Plan)event.getSource()));
+
         this.setCenter(dw);
     }
-
 }
 

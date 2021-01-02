@@ -83,4 +83,6 @@ public class DrawingWorkspace extends Pane {
     public void setActivePlanet( Plan p ){
         drawingArea.setActivePlanet(p);
     }
+
+
 }

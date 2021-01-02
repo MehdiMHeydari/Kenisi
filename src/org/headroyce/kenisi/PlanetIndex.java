@@ -10,16 +10,31 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
 public class PlanetIndex extends VBox {
+    private String name;
+
+    private DrawingArea da;
+
+    private DrawingWorkspace dw;
+
+    private Stage primaryStage;
+
     private final VBox plansArea;
     private ArrayList<Plan> plans;
 
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
 
     public PlanetIndex() {
+        name = "Untitled";
+
+        da = new DrawingArea(dw);
+
+        primaryStage = new Stage();
+
         Label title = new Label("Planets");
         title.prefWidthProperty().bind(this.widthProperty());
 
@@ -105,24 +120,27 @@ public class PlanetIndex extends VBox {
 
             selected = new CheckBox();
             title = new TextField(this.plan.getTitle());
-//            info = new Button();
-//            Image img = new Image(getClass().getResourceAsStream("/images/info.png"));
-//            ImageView imageView = new ImageView(img);
-//            imageView.setFitWidth(30);
-//            imageView.setFitHeight(30);
-//            info.setGraphic(imageView);
-
-            Button minusButton = new Button();
-            minusButton.setTooltip(new Tooltip("Minus"));
-            Image img = new Image(getClass().getResourceAsStream("/images/minus-square.png"));
+            info = new Button();
+            Image img = new Image(getClass().getResourceAsStream("/images/info.png"));
             ImageView imageView = new ImageView(img);
             imageView.setFitWidth(30);
             imageView.setFitHeight(30);
-            minusButton.setGraphic(imageView);
-            minusButton.setOnAction(actionEvent -> {
-                //Remove planet if clicked
-                PlanetIndex.this.plansArea.getChildren().remove(PlansIndexItem.this);
+            info.setGraphic(imageView);
+            info.setOnAction(actionEvent -> {
+               da.info(primaryStage, name);
             });
+
+//            Button minusButton = new Button();
+//            minusButton.setTooltip(new Tooltip("Minus"));
+//            Image img = new Image(getClass().getResourceAsStream("/images/minus-square.png"));
+//            ImageView imageView = new ImageView(img);
+//            imageView.setFitWidth(30);
+//            imageView.setFitHeight(30);
+//            minusButton.setGraphic(imageView);
+//            minusButton.setOnAction(actionEvent -> {
+//                //Remove planet if clicked
+//                PlanetIndex.this.plansArea.getChildren().remove(PlansIndexItem.this);
+//            });
 
             this.setAlignment(Pos.CENTER);
 
@@ -133,25 +151,27 @@ public class PlanetIndex extends VBox {
                 // The text-field has changed (title)
                 // So remove the element from the BST, change the title, and then add it back
                 PlansIndexItem.this.plan.setTitle(newVal);
+                name = newVal;
+
             });
             selected.prefHeightProperty().bind(this.heightProperty());
             HBox.setMargin(selected, new Insets(5,5,5,5));
 
-//            info.setMinWidth(45);
-//            info.setMaxWidth(Double.MAX_VALUE);
-//            info.setMaxHeight(Double.MAX_VALUE);
-//            info.prefHeightProperty().bind(this.heightProperty());
-//            HBox.setMargin(info, new Insets(5,5,5,5));
+            info.setMinWidth(45);
+            info.setMaxWidth(Double.MAX_VALUE);
+            info.setMaxHeight(Double.MAX_VALUE);
+            info.prefHeightProperty().bind(this.heightProperty());
+            HBox.setMargin(info, new Insets(5,5,5,5));
 
-            minusButton.setMinWidth(45);
-            minusButton.setMaxWidth(Double.MAX_VALUE);
-            minusButton.setMaxHeight(Double.MAX_VALUE);
-            minusButton.prefHeightProperty().bind(this.heightProperty());
-            HBox.setMargin(minusButton, new Insets(5,5,5,5));
+//            minusButton.setMinWidth(45);
+//            minusButton.setMaxWidth(Double.MAX_VALUE);
+//            minusButton.setMaxHeight(Double.MAX_VALUE);
+//            minusButton.prefHeightProperty().bind(this.heightProperty());
+//            HBox.setMargin(minusButton, new Insets(5,5,5,5));
 
             this.setBorder(new Border(new BorderStroke(Color.BLACK,
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-            this.getChildren().addAll(title, minusButton);
+            this.getChildren().addAll(title, info);
         }
     }
 }
