@@ -53,8 +53,12 @@ public class Body {
         double localX = localplanet.getX();
         double localY = localplanet.getY();
 
-        if (((localX - localplanet.radius <= primX + this.radius) || (localX + localplanet.radius >= primX - this.radius)))
-            return ((localY - localplanet.radius) <= (primY + this.radius)) || ((localY + localplanet.radius) >= (primY - this.radius));
+        if (((localX - localplanet.radius <= primX + this.radius) && (localX + localplanet.radius >= primX + this.radius))  || ((localX + localplanet.radius >= primX - this.radius) && (localX - localplanet.radius <= primX - this.radius))){
+
+            return ((localY - localplanet.radius <= primY + this.radius) && (localY + localplanet.radius >= primY + this.radius) ) || ((localY + localplanet.radius >= primY - this.radius) && (localY - localplanet.radius <= primY - this.radius));
+        }
+
+
         return false;
     }
 
