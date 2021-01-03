@@ -51,8 +51,9 @@ public class Logic {
                             double localY = localplanet.getY();
 
                             //collisions
-                            if (primaryplanet.collision(localplanet)) {
                             /*
+                            if (primaryplanet.collision(localplanet)) {
+
                                 System.out.println(localplanet.getX());
                                 System.out.println(primaryplanet.getX());
 
@@ -68,7 +69,7 @@ public class Logic {
                                     planets.remove(i);
                                 } else {
 
-                             */
+
                                     //insert random scatter spawn here
                                     int numdebris = ThreadLocalRandom.current().nextInt(2, 4);
                                     double radgen = primaryplanet.radius / numdebris;
@@ -106,16 +107,17 @@ public class Logic {
                                    // planets.remove(j-1);
                                 }
 
-                            }
-                        }
+                             */
+                                }
 
-                        primaryplanet.move();
+                            }
+                    primaryplanet.move();
                     }
                 }
                 time = timein;
             }
         }
     }
-}
+
 
 
