@@ -22,6 +22,8 @@ public class DrawingArea extends StackPane {
     // All the selected shapes in the world
     private final DrawingWorkspace mainWorkspace;
 
+   // private double conversionval;
+
     private Instant time;
     private final Body_Tool tool;
     private double radius;
@@ -50,7 +52,13 @@ public class DrawingArea extends StackPane {
         mainCanvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, handler);
 
         this.getChildren().add(mainCanvas);
+
+       // conversionval = (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
     }
+
+   // public double getConversionval() {
+   //     return conversionval;
+    //}
 
     /**
      * Render the viewable canvas
@@ -62,12 +70,17 @@ public class DrawingArea extends StackPane {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
             Body_Tool.bodies.forEach(i -> {
+
+
+                radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+
+
                 //gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
                 gc.setFill(Color.BLACK);
-                gc.fillOval(i.getX(), i.getY(), i.radius, i.radius);
+                gc.fillOval(i.getX(), i.getY(), radius, radius);
             });
             if (mouseHeld) {
-                radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / 100.0;
+                radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
                 gc.fillOval(handler.getX(), handler.getY(), radius, radius);
             }
         }

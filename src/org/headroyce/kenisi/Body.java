@@ -1,5 +1,7 @@
 package org.headroyce.kenisi;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  *
  */
@@ -51,9 +53,30 @@ public class Body {
         double localX = localplanet.getX();
         double localY = localplanet.getY();
 
-        if (((localX - localplanet.radius <= primX + this.radius) || (localX + localplanet.radius >= primX - this.radius)))
-            return ((localY - localplanet.radius) <= (primY + this.radius)) || ((localY + localplanet.radius) >= (primY - this.radius));
+       // if (((localX - localplanet.radius <= primX + this.radius) && (localX + localplanet.radius >= primX + this.radius))  || ((localX + localplanet.radius >= primX - this.radius) && (localX - localplanet.radius <= primX - this.radius))){
+     //       System.out.println("here");
+      //      return ((localY - localplanet.radius <= primY + this.radius) && (localY + localplanet.radius >= primY + this.radius) ) || ((localY + localplanet.radius >= primY - this.radius) && (localY - localplanet.radius <= primY - this.radius));
+     //   }
+            //System.out.println("d = " + distance(primX,primY, localX, localY));
+System.out.println("lr= " + localplanet.radius);
+        System.out.println("pr= " + this.radius);
+
+        //i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+
+        //double primrad = this.radius * ;
+
+
+
+        if ( distance(primX,primY, localX, localY) <= (this.radius + localplanet.radius) ){
+            return true;
+        }
         return false;
+    }
+
+    public double distance (double x1, double y1, double x2, double y2){
+        double x = Math.pow((x2-x1), 2);
+        double y = Math.pow((y2-y1), 2);
+        return Math.sqrt(x + y);
     }
 
     /**
