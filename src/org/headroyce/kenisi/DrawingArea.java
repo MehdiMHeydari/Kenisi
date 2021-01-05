@@ -8,8 +8,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Random;
 
 public class DrawingArea extends StackPane {
 
@@ -76,12 +78,20 @@ public class DrawingArea extends StackPane {
 
 
                 //gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
-                gc.setFill(Color.BLACK);
-                gc.fillOval(i.getX(), i.getY(), radius, radius);
+               // Random rand = new Random();
+
+               // float r = rand.nextFloat();
+               // float g = rand.nextFloat();
+               // float b = rand.nextFloat();
+
+
+
+                gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
+                gc.fillOval(i.getX() - radius/2, i.getY() - radius/2, radius, radius);
             });
             if (mouseHeld) {
                 radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
-                gc.fillOval(handler.getX(), handler.getY(), radius, radius);
+                gc.fillOval(handler.getX() - radius/2, handler.getY() - radius/2, radius, radius);
             }
         }
     }
