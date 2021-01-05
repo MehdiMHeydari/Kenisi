@@ -2,19 +2,12 @@ package org.headroyce.kenisi;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
@@ -24,31 +17,28 @@ public class DrawingArea extends StackPane {
     // The main drawing canvas
     private final Canvas mainCanvas;
 
-    // The plan to draw
-    private Plan activePlan;
-
     // All the selected shapes in the world
     private final DrawingWorkspace mainWorkspace;
-    //private Body body;
     private Instant time;
     private final Body_Tool tool;
     private Double radius;
     private boolean mouseHeld;
     private boolean pause;
     private Logic logic;
+    private PlanetIndex plan;
 
-    public DrawingArea(DrawingWorkspace mw) {
+    public DrawingArea(DrawingWorkspace mw, PlanetIndex p) {
         mouseHeld = false;
         pause = false;
         tool = new Body_Tool();
         mainWorkspace = mw;
+        plan = p;
         mainCanvas = new Canvas();
         AnimTimer timer = new AnimTimer();
         logic = new Logic();
         timer.start();
         logic.start();
         radius = 1.0;
-        //body = new Body(radius, 45, 45, 45, 45);
 
         // Force the canvas to resize to the screen's size
         mainCanvas.widthProperty().bind(this.widthProperty());
@@ -67,7 +57,6 @@ public class DrawingArea extends StackPane {
     /**
      * Render the viewable canvas
      */
-
     private class AnimTimer extends AnimationTimer {
         @Override
         public void handle(long now) {
@@ -92,6 +81,11 @@ public class DrawingArea extends StackPane {
      */
     private class MouseHandler implements EventHandler<MouseEvent> {
 
+        /**
+         * Mouse events
+         * @param event The mouse event
+         * Worst-case time complexity: O(1)
+         */
         @Override
         public void handle(MouseEvent event) {
             if (!pause) {
@@ -104,6 +98,9 @@ public class DrawingArea extends StackPane {
                 }
                 if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
                     if (tool.mouseRelease(event.getX(), event.getY(), Duration.between(time, Instant.now()).toMillis())) {
+                        //Creates new Plan after creating planet
+                        Plan newPlan = new Plan(null);
+                        plan.addPlan(newPlan);
                         mouseHeld = false;
                     }
                 }
@@ -111,21 +108,26 @@ public class DrawingArea extends StackPane {
         }
     }
 
+    /**
+     * Deletes Planets
+     * Worst-case time complexity:
+     */
     public void delete() {
+
     }
 
     /**
      * Sets color of individual planet clicked on to red
-     * @param p
+     * @param p Plan to set to
      */
     public void setActivePlanet(Plan p) {
-        activePlan = p;
-
+        
     }
 
-    public void escape() {
-    }
-
+    /**
+     * Pauses game
+     * Worst-case time complexity: O(1)
+     */
     public void pause() {
         if (!pause) {
             pause = true;
@@ -135,22 +137,6 @@ public class DrawingArea extends StackPane {
             pause = false;
             logic.start();
         }
-    }
-
-    public void info(final Stage primaryStage, String name) {
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        String rad = radius.toString();
-        dialogVbox.getChildren().add(new Text(
-                "Name: " + name + "\n"
-                        + "Radius: " + rad + "\n"
-                        //+ "Velocity: " + (int)Math.sqrt((body.getVelX()*body.getVelX()) + (body.getVelY()*body.getVelX()))
-        ));
-        Scene dialogScene = new Scene(dialogVbox, 150, 100);
-        dialog.setScene(dialogScene);
-        dialog.show();
     }
 }
 

@@ -5,11 +5,14 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -17,9 +20,9 @@ import java.util.ArrayList;
 public class PlanetIndex extends VBox {
     private String name;
 
-    private DrawingArea da;
-
     private DrawingWorkspace dw;
+
+    private DrawingArea da;
 
     private Stage primaryStage;
 
@@ -29,9 +32,9 @@ public class PlanetIndex extends VBox {
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
 
     public PlanetIndex() {
-        name = "Untitled";
+        da = new DrawingArea(dw, this);
 
-        da = new DrawingArea(dw);
+        name = "Untitled";
 
         primaryStage = new Stage();
 
@@ -43,22 +46,22 @@ public class PlanetIndex extends VBox {
         title.getStyleClass().add("planetsIndexHeader");
         tools.getStyleClass().add("planetsIndexTools");
 
-        Button addButton = new Button();
-        addButton.setTooltip(new Tooltip("Add"));
-        Image img = new Image(getClass().getResourceAsStream("/images/plus-square.png"));
-        ImageView imageView = new ImageView(img);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        addButton.setGraphic(imageView);
-        addButton.setOnAction(actionEvent -> {
-            Plan newPlan = new Plan(null);
-            addPlan(newPlan);
-        });
+//        Button addButton = new Button();
+//        addButton.setTooltip(new Tooltip("Add"));
+//        Image img = new Image(getClass().getResourceAsStream("/images/plus-square.png"));
+//        ImageView imageView = new ImageView(img);
+//        imageView.setFitWidth(30);
+//        imageView.setFitHeight(30);
+//        addButton.setGraphic(imageView);
+//        addButton.setOnAction(actionEvent -> {
+//            Plan newPlan = new Plan(null);
+//            addPlan(newPlan);
+//        });
 
         Button sortingButton = new Button();
         sortingButton.setTooltip(new Tooltip("Sort"));
-        img = new Image(getClass().getResourceAsStream("/images/sort.png"));
-        imageView = new ImageView(img);
+        Image img = new Image(getClass().getResourceAsStream("/images/sort.png"));
+        ImageView imageView = new ImageView(img);
         imageView.setFitWidth(30);
         imageView.setFitHeight(30);
         sortingButton.setGraphic(imageView);
@@ -66,9 +69,20 @@ public class PlanetIndex extends VBox {
 
         });
 
+        Button delete = new Button();
+        delete.setTooltip(new Tooltip("Delete"));
+        img = new Image(getClass().getResourceAsStream("/images/trash.png"));
+        imageView = new ImageView(img);
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        delete.setGraphic(imageView);
+        delete.setOnAction(actionEvent -> {
+            da.delete();
+        });
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        tools.getChildren().addAll(sortingButton, spacer, addButton);
+        tools.getChildren().addAll(sortingButton, spacer, delete);
 
         plansArea = new VBox();
         plansArea.getStyleClass().add("planetIndexList");
@@ -76,6 +90,11 @@ public class PlanetIndex extends VBox {
         this.getChildren().addAll(title, tools, plansArea);
     }
 
+    /**
+     * Adds new plan to planet index
+     * @param p Plan needed to be added
+     * Worst-case time complexity: O(1)
+     */
     public void addPlan(Plan p) {
         if( p == null ) return;
 
@@ -102,6 +121,11 @@ public class PlanetIndex extends VBox {
         }
     }
 
+    /**
+     * Sets on specific planet selected
+     * @param handler
+     * Worst-case time complexity: O(1)
+     */
     public void setOnPlanetSelected( EventHandler<ActionEvent> handler ){
         this.selectedPlanetEventHandler = handler;
     }
@@ -127,7 +151,7 @@ public class PlanetIndex extends VBox {
             imageView.setFitHeight(30);
             info.setGraphic(imageView);
             info.setOnAction(actionEvent -> {
-               da.info(primaryStage, name);
+               info(primaryStage, name);
             });
 
 //            Button minusButton = new Button();
@@ -173,5 +197,27 @@ public class PlanetIndex extends VBox {
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             this.getChildren().addAll(title, info);
         }
+    }
+
+    /**
+     * Displays pop up with planet information
+     * @param primaryStage The stage to set
+     * @param name Planet name
+     * Worst-case time complexity: O(n)
+     */
+    public void info(final Stage primaryStage, String name) {
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        VBox dialogVbox = new VBox(20);
+        //access linked list here to display info
+        dialogVbox.getChildren().add(new Text(
+                "Name: " + name + "\n"
+                        + "Radius: " +  "\n"
+                //+ "Velocity: " + (int)Math.sqrt((body.getVelX()*body.getVelX()) + (body.getVelY()*body.getVelX()))
+        ));
+        Scene dialogScene = new Scene(dialogVbox, 150, 100);
+        dialog.setScene(dialogScene);
+        dialog.show();
     }
 }

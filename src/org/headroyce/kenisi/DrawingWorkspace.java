@@ -16,8 +16,8 @@ public class DrawingWorkspace extends Pane {
     private EventHandler<ActionEvent> openPlanetHandler;
     private final DrawingArea drawingArea;
 
-    public DrawingWorkspace() {
-        drawingArea = new DrawingArea(this);
+    public DrawingWorkspace(PlanetIndex p) {
+        drawingArea = new DrawingArea(this, p);
 
         Button pause = new Button();
         pause.setTooltip(new Tooltip("Pause"));
@@ -26,23 +26,10 @@ public class DrawingWorkspace extends Pane {
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         pause.setGraphic(imageView);
-        pause.layoutYProperty().bind(this.heightProperty().divide(2).subtract(pause.heightProperty().divide(2)));
         pause.setOnAction(actionEvent -> {
             drawingArea.pause();
         });
-
-        Button delete = new Button();
-        delete.setTooltip(new Tooltip("Delete"));
-        img = new Image(getClass().getResourceAsStream("/images/trash.png"));
-        imageView = new javafx.scene.image.ImageView(img);
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
-        delete.setGraphic(imageView);
-        delete.setAlignment(Pos.BOTTOM_LEFT);
-        delete.setOnAction(actionEvent -> {
-
-        });
-        delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
+        pause.layoutXProperty().bind(this.widthProperty().subtract(pause.widthProperty()));
 
         openPlanet = new Button();
         openPlanet.setTooltip(new Tooltip("Planet"));
@@ -73,16 +60,24 @@ public class DrawingWorkspace extends Pane {
 
         this.getChildren().add(drawingArea);
         this.getChildren().add(pause);
-        this.getChildren().add(delete);
         this.getChildren().add(openPlanet);
     }
+
+    /**
+     * Opens planet index
+     * @param handler
+     * Worst-case time complexity: O(1)
+     */
     public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
         openPlanetHandler = handler;
     }
 
+    /**
+     * Sets active planet
+     * @param p Active plan to set to
+     * Worst-case time complexity: O(1)
+     */
     public void setActivePlanet( Plan p ){
         drawingArea.setActivePlanet(p);
     }
-
-
 }
