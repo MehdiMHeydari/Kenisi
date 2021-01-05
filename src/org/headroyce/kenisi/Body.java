@@ -7,10 +7,12 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class Body {
     public final double radius; //radius is more useful than area, use radius to draw body
+    public final double cordradius;
     public final double mass; //use mass to determine gravitational well
     private double x, y; //the x and y coordinates of the center of the body
     private double velX, velY; //the x and y velocity of the body
-    public Body (double radius, double posX, double posY, double velX, double velY) { //initialize org.headroyce.kenisi.Body object with attributes from UI
+    public Body (double cordradius, double radius, double posX, double posY, double velX, double velY) { //initialize org.headroyce.kenisi.Body object with attributes from UI
+        this.cordradius = cordradius;
         this.radius = radius;
         this.mass = radius * 500; //r = 2000t + 100, density = 500kg/km^3, mass = 500 * r
         this.x = posX;
@@ -58,8 +60,10 @@ public class Body {
       //      return ((localY - localplanet.radius <= primY + this.radius) && (localY + localplanet.radius >= primY + this.radius) ) || ((localY + localplanet.radius >= primY - this.radius) && (localY - localplanet.radius <= primY - this.radius));
      //   }
             //System.out.println("d = " + distance(primX,primY, localX, localY));
-System.out.println("lr= " + localplanet.radius);
-        System.out.println("pr= " + this.radius);
+
+
+        //System.out.println("lr= " + localplanet.radius);
+        //System.out.println("pr= " + this.radius);
 
         //i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
 
@@ -67,7 +71,7 @@ System.out.println("lr= " + localplanet.radius);
 
 
 
-        if ( distance(primX,primY, localX, localY) <= (this.radius + localplanet.radius) ){
+        if ( (distance(primX,primY, localX, localY) - this.cordradius/4) <= (this.cordradius + localplanet.cordradius) ){
             return true;
         }
         return false;
@@ -76,6 +80,7 @@ System.out.println("lr= " + localplanet.radius);
     public double distance (double x1, double y1, double x2, double y2){
         double x = Math.pow((x2-x1), 2);
         double y = Math.pow((y2-y1), 2);
+       // System.out.println("distance: " + Math.sqrt(x + y));
         return Math.sqrt(x + y);
     }
 
