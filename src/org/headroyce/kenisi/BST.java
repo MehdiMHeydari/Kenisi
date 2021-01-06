@@ -103,7 +103,6 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * Removes the first element equal to data when using the comparator function
-     *
      * @param id the element to compare with
      * @return the exact data removed from the BST
      */
@@ -132,7 +131,6 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * Completes an inOrder traversal of the BST
-     *
      * @return Starting from the root, a list of the resulting inOrder traversal
      */
     public List<String[]> inOrder() { //Time Complexity: O(1)
@@ -144,7 +142,6 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * Completes an inOrder traversal of the BST
-     *
      * @param curr the node start at (null indicates stoppage)
      * @param list the list to add to
      * @return Starting at curr, a list of the resulting inOrder traversal
@@ -162,7 +159,6 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * Each element of the BST
-     *
      * @param <E> the type of data stored
      */
     private class Node<E extends Comparable<E>> {

@@ -16,7 +16,7 @@ public class Body {
     private final Color color;
     public final UUID id;
 
-    public Body(UUID id, double cordRadius, double radius, double posX, double posY, double velX, double velY, Color color) { //initialize org.headroyce.kenisi.Body object with attributes from UI
+    public Body(UUID id, double cordRadius, double radius, double posX, double posY, double velX, double velY, Color color) { //initialize body object with attributes from UI
         this.id = id;
         this.cordRadius = cordRadius;
         this.radius = radius;
@@ -41,7 +41,6 @@ public class Body {
 
     /**
      * getter for y position of body
-     *
      * @return the y position of the body
      * worst case time complexity O(1)
      */

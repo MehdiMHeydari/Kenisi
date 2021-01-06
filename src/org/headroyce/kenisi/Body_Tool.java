@@ -8,23 +8,15 @@ import java.util.UUID;
 public class Body_Tool {
 
     public static final LinkedList<Body> bodies = new LinkedList<>();
-    private boolean mouseDown;
     private double startX, startY; //the starting point of the mouse
 
     /**
      * called by UI when mouse is clicked
-     *
-     * @return boolean: true if mouse is not currently down, false otherwise
      * worst case time complexity O(1)
      */
-    public boolean mouseClick(double x, double y) {
-        if (!mouseDown) {
-            this.startX = x;
-            this.startY = y;
-            this.mouseDown = true;
-            return true;
-        }
-        return false;
+    public void mouseClick(double x, double y) {
+        this.startX = x;
+        this.startY = y;
     }
 
     /**
@@ -43,7 +35,6 @@ public class Body_Tool {
         Color color = Color.color(Math.random(), Math.random(), Math.random());
         UUID id = UUID.randomUUID();
         bodies.add(new Body(id, cordradius, radius, x, y, velX, velY, color));
-        mouseDown = false;
         return id;
     }
 }
