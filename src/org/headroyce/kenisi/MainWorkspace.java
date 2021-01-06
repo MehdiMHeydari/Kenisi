@@ -5,7 +5,7 @@ import javafx.scene.layout.BorderPane;
 public class MainWorkspace extends BorderPane {
     private final PlanetIndex plansIndex;
 
-    public MainWorkspace(){
+    public MainWorkspace() {
         DrawingWorkspace dw = new DrawingWorkspace();
         plansIndex = new PlanetIndex();
         plansIndex.prefWidthProperty().bind(this.widthProperty().divide(3));
