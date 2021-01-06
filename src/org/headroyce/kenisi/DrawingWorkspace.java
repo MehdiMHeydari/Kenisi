@@ -44,8 +44,7 @@ public class DrawingWorkspace extends Pane {
             if (openPlanet.getStyleClass().contains("active")) {
                 openPlanet.getStyleClass().remove("active");
                 openPlanet.setEffect(null);
-            }
-            else {
+            } else {
                 openPlanet.getStyleClass().add("active");
                 ColorAdjust ca = new ColorAdjust();
                 ca.setBrightness(-0.5);
@@ -63,11 +62,12 @@ public class DrawingWorkspace extends Pane {
         this.getChildren().add(delete);
         this.getChildren().add(openPlanet);
     }
-    public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
+
+    public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler) {
         openPlanetHandler = handler;
     }
 
-    public void setActivePlanet( Plan p ){
+    public void setActivePlanet(Plan p) {
         drawingArea.setActivePlanet(p);
     }
 }

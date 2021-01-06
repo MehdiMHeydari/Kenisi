@@ -24,7 +24,7 @@ public class DrawingArea extends StackPane {
     // All the selected shapes in the world
     private final DrawingWorkspace mainWorkspace;
 
-   // private double conversionval;
+    // private double conversionval;
 
     private Instant time;
     private final Body_Tool tool;
@@ -55,11 +55,11 @@ public class DrawingArea extends StackPane {
 
         this.getChildren().add(mainCanvas);
 
-       // conversionval = (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+        // conversionval = (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
     }
 
-   // public double getConversionval() {
-   //     return conversionval;
+    // public double getConversionval() {
+    //     return conversionval;
     //}
 
     /**
@@ -78,20 +78,19 @@ public class DrawingArea extends StackPane {
 
 
                 //gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
-               // Random rand = new Random();
+                // Random rand = new Random();
 
-               // float r = rand.nextFloat();
-               // float g = rand.nextFloat();
-               // float b = rand.nextFloat();
+                // float r = rand.nextFloat();
+                // float g = rand.nextFloat();
+                // float b = rand.nextFloat();
 
 
-
-                gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
-                gc.fillOval(i.getX() - radius/2, i.getY() - radius/2, radius, radius);
+                gc.setFill(i.getColor());
+                gc.fillOval(i.getX() - radius / 2, i.getY() - radius / 2, radius, radius);
             });
             if (mouseHeld) {
                 radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
-                gc.fillOval(handler.getX() - radius/2, handler.getY() - radius/2, radius, radius);
+                gc.fillOval(handler.getX() - radius / 2, handler.getY() - radius / 2, radius, radius);
             }
         }
     }
@@ -119,9 +118,14 @@ public class DrawingArea extends StackPane {
                 }
             }
         }
-        public double getX () { return this.x; }
 
-        public double getY () { return this.y; }
+        public double getX() {
+            return this.x;
+        }
+
+        public double getY() {
+            return this.y;
+        }
     }
 
     public void delete() {

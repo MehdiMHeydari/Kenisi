@@ -62,7 +62,7 @@ public class PlanetIndex extends VBox {
     }
 
     public void addPlan(Plan p) {
-        if( p == null ) return;
+        if (p == null) return;
 
         // Wrap the plan in a view and bind the width to the index's width
         PlansIndexItem guiItem = new PlansIndexItem(p);
@@ -71,7 +71,7 @@ public class PlanetIndex extends VBox {
 
         // If the item is clicked on then fire the PlanSelection Event
         guiItem.setOnMouseClicked(event -> {
-            if( selectedPlanetEventHandler != null ) {
+            if (selectedPlanetEventHandler != null) {
                 PlansIndexItem pi = (PlansIndexItem) event.getSource();
                 ActionEvent e = new ActionEvent(pi.plan, Event.NULL_SOURCE_TARGET);
                 selectedPlanetEventHandler.handle(e);
@@ -81,13 +81,13 @@ public class PlanetIndex extends VBox {
         plansArea.getChildren().add(0, guiItem);
 
         // fire the selection event to display the new plan
-        if( selectedPlanetEventHandler != null ){
+        if (selectedPlanetEventHandler != null) {
             ActionEvent evt = new ActionEvent(p, Event.NULL_SOURCE_TARGET);
             selectedPlanetEventHandler.handle(evt);
         }
     }
 
-    public void setOnPlanetSelected( EventHandler<ActionEvent> handler ){
+    public void setOnPlanetSelected(EventHandler<ActionEvent> handler) {
         this.selectedPlanetEventHandler = handler;
     }
 
@@ -99,8 +99,8 @@ public class PlanetIndex extends VBox {
 
         private Plan plan;
 
-        public PlansIndexItem(Plan plan){
-            if( plan == null ) throw new IllegalArgumentException("Plan cannot be null");
+        public PlansIndexItem(Plan plan) {
+            if (plan == null) throw new IllegalArgumentException("Plan cannot be null");
             this.plan = plan;
 
             selected = new CheckBox();
@@ -127,7 +127,7 @@ public class PlanetIndex extends VBox {
             this.setAlignment(Pos.CENTER);
 
             title.setMaxWidth(Double.MAX_VALUE);
-            HBox.setMargin(title, new Insets(5,5,5,5));
+            HBox.setMargin(title, new Insets(5, 5, 5, 5));
             HBox.setHgrow(title, Priority.ALWAYS);
             title.textProperty().addListener((observableValue, oldVal, newVal) -> {
                 // The text-field has changed (title)
@@ -135,7 +135,7 @@ public class PlanetIndex extends VBox {
                 PlansIndexItem.this.plan.setTitle(newVal);
             });
             selected.prefHeightProperty().bind(this.heightProperty());
-            HBox.setMargin(selected, new Insets(5,5,5,5));
+            HBox.setMargin(selected, new Insets(5, 5, 5, 5));
 
 //            info.setMinWidth(45);
 //            info.setMaxWidth(Double.MAX_VALUE);
@@ -147,7 +147,7 @@ public class PlanetIndex extends VBox {
             minusButton.setMaxWidth(Double.MAX_VALUE);
             minusButton.setMaxHeight(Double.MAX_VALUE);
             minusButton.prefHeightProperty().bind(this.heightProperty());
-            HBox.setMargin(minusButton, new Insets(5,5,5,5));
+            HBox.setMargin(minusButton, new Insets(5, 5, 5, 5));
 
             this.setBorder(new Border(new BorderStroke(Color.BLACK,
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
