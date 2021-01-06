@@ -28,7 +28,6 @@ public class BST<T extends Comparable<T>> {
             root = new Node<T>();
             root.data = data;
 
-            return;
         }
         else {
             Node<T> currentnode = root;
@@ -54,7 +53,6 @@ public class BST<T extends Comparable<T>> {
                 }
             }
 
-            return;
         }
     }
 
@@ -107,7 +105,7 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * Removes the first element equal to data when using the comparator function
-     * @param data the element to compare with
+     * @param id the element to compare with
      * @return the exact data removed from the BST
      */
     public String remove( String id ){ //Time Complexity: O(n)
