@@ -21,9 +21,7 @@ public class MainWorkspace extends BorderPane {
                 setLeft(plansIndex);
             }
         });
-
         plansIndex.setOnPlanetSelected(event -> dw.setActivePlanet((Plan)event.getSource()));
-
         this.setCenter(dw);
     }
 }

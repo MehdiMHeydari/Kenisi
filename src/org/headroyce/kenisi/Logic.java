@@ -59,11 +59,11 @@ public class Logic {
                             //collisions
 
                             if (primaryplanet.collision(localplanet)) {
-                                if (primaryplanet.cordRadius >= localplanet.cordRadius * 3) {
+                                if (primaryplanet.cordRadius >= localplanet.cordRadius * 1.5) {
                                     Body combined = new Body(primaryplanet.id, (primaryplanet.cordRadius + localplanet.cordRadius / 4), (primaryplanet.radius + localplanet.radius / 4), primX, primY, primaryplanet.getVelX(), primaryplanet.getVelY(), primaryplanet.getColor());
                                     planets.set(i, combined);
                                     planets.remove(j);
-                                } else if (localplanet.cordRadius >= primaryplanet.cordRadius * 3) {
+                                } else if (localplanet.cordRadius >= primaryplanet.cordRadius * 1.5) {
                                     Body combined = new Body(localplanet.id, (localplanet.cordRadius + primaryplanet.cordRadius / 4), (localplanet.radius + primaryplanet.radius / 4), localX, localY, localplanet.getVelX(), localplanet.getVelY(), localplanet.getColor());
                                     planets.set(j, combined);
                                     planets.remove(i);
