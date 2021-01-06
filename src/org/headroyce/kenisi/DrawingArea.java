@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.UUID;
 
 public class DrawingArea extends StackPane {
 
@@ -80,7 +81,6 @@ public class DrawingArea extends StackPane {
      * Helps to handle all of the mouse events on the canvas
      */
     private class MouseHandler implements EventHandler<MouseEvent> {
-
         /**
          * Mouse events
          * @param event The mouse event
@@ -91,18 +91,16 @@ public class DrawingArea extends StackPane {
             if (!pause) {
                 if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
                     time = Instant.now();
-                    if (tool.mouseClick(event.getX(), event.getY())) {
-                        mouseHeld = true;
-                        return;
-                    }
+                    tool.mouseClick(event.getX(), event.getY());
+                    mouseHeld = true;
+                    return;
                 }
                 if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                    if (tool.mouseRelease(event.getX(), event.getY(), Duration.between(time, Instant.now()).toMillis())) {
-                        //Creates new Plan after creating planet
-                        Plan newPlan = new Plan(null);
-                        plan.addPlan(newPlan);
-                        mouseHeld = false;
-                    }
+                    UUID id = tool.mouseRelease(event.getX(), event.getY(), Duration.between(time, Instant.now()).toMillis());
+                    //Creates new Plan after creating planet
+                    Plan newPlan = new Plan( null, id);
+                    plan.addPlan(newPlan);
+                    mouseHeld = false;
                 }
             }
         }
