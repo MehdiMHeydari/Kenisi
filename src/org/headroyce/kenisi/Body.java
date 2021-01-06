@@ -1,21 +1,24 @@
 package org.headroyce.kenisi;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
+import java.util.UUID;
 
 /**
  *
  */
 public class Body {
     public final double radius; //radius is more useful than area, use radius to draw body
-    public final double cordradius;
+    public final double cordRadius;
     public final double mass; //use mass to determine gravitational well
     private double x, y; //the x and y coordinates of the center of the body
     private double velX, velY; //the x and y velocity of the body
-    private Color color;
+    private final Color color;
+    public final UUID id;
 
-    public Body(double cordradius, double radius, double posX, double posY, double velX, double velY, Color color) { //initialize org.headroyce.kenisi.Body object with attributes from UI
-        this.cordradius = cordradius;
+    public Body(UUID id, double cordRadius, double radius, double posX, double posY, double velX, double velY, Color color) { //initialize org.headroyce.kenisi.Body object with attributes from UI
+        this.id = id;
+        this.cordRadius = cordRadius;
         this.radius = radius;
         this.mass = radius * 500; //r = 2000t + 100, density = 500kg/km^3, mass = 500 * r
         this.x = posX;
@@ -80,10 +83,7 @@ public class Body {
         double primrad = this.radius * ;
         */
 
-        if ((distance(primX, primY, localX, localY)) <= (this.cordradius / 1.5 + localplanet.cordradius / 1.5)) {
-            return true;
-        }
-        return false;
+        return (distance(primX, primY, localX, localY)) <= (this.cordRadius / 1.5 + localplanet.cordRadius / 1.5);
     }
 
     public double distance(double x1, double y1, double x2, double y2) {

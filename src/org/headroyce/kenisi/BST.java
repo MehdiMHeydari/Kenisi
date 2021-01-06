@@ -24,13 +24,12 @@ public class BST<T extends Comparable<T>> {
      *
      * @param data the data to add
      */
-    public void add(String data[]) { //Time Complexity: O(n)
+    public void add(String[] data) { //Time Complexity: O(n)
         //checks for empty tree
         if (root == null) {
-            root = new Node<T>();
+            root = new Node<>();
             root.data = data;
 
-            return;
         } else {
             Node<T> currentnode = root;
             Node<T> adding = new Node<>();
@@ -55,7 +54,6 @@ public class BST<T extends Comparable<T>> {
                 }
             }
 
-            return;
         }
     }
 
@@ -100,8 +98,6 @@ public class BST<T extends Comparable<T>> {
             }
             returnData = curr.data[0];
         }
-
-
         return returnData;
     }
 
@@ -116,13 +112,11 @@ public class BST<T extends Comparable<T>> {
             return null;
         }
         Node<T> parent = null;
-        String retrn = null;
         Node<T> curr = this.root;
 
         while (curr != null) {
             if (curr.data[0].compareTo(id) == 0) {
-                retrn = removeNode(curr, parent);
-                return retrn;
+                return removeNode(curr, parent);
             } else {
                 parent = curr;
                 if (curr.data[0].compareTo(id) < 0) {
@@ -132,10 +126,7 @@ public class BST<T extends Comparable<T>> {
                 }
             }
         }
-
-
-        return retrn;
-
+        return null;
     }
 
 
@@ -158,7 +149,7 @@ public class BST<T extends Comparable<T>> {
      * @param list the list to add to
      * @return Starting at curr, a list of the resulting inOrder traversal
      */
-    private List<String[]> inOrder(Node<T> curr, List<String[]> list) { //Time Complexcity: O(n)
+    private List<String[]> inOrder(Node<T> curr, List<String[]> list) { //Time Complexity: O(n)
         if (curr == null) {
             return list;
         }
