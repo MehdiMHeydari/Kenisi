@@ -121,7 +121,7 @@ public class DrawingArea extends StackPane {
      * @param p Plan to set to
      */
     public void setActivePlanet(Plan p) {
-        
+
     }
 
     /**
