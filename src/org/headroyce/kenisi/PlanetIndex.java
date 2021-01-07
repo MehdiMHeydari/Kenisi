@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class PlanetIndex extends VBox {
     private int sortMode;
@@ -32,7 +33,7 @@ public class PlanetIndex extends VBox {
     public PlanetIndex() {
         sortByTitle = new BST<>();
         da = new DrawingArea(this);
-        dw = new DrawingWorkspace(this, da);
+        dw = new DrawingWorkspace(da);
         name = "Untitled";
         primaryStage = new Stage();
         plansArea = new VBox();
@@ -195,7 +196,8 @@ public class PlanetIndex extends VBox {
             imageView.setFitHeight(30);
             info.setGraphic(imageView);
             info.setOnAction(actionEvent -> {
-               info(primaryStage, name);
+                da.setActivePlanet(plan);
+                info(primaryStage, name);
             });
 
 //            Button minusButton = new Button();
@@ -261,12 +263,13 @@ public class PlanetIndex extends VBox {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(primaryStage);
         VBox dialogVbox = new VBox(20);
-        //access linked list here to display info
-        dialogVbox.getChildren().add(new Text(
+        UUID id = da.getActivePlan();
+        Body_Tool.bodies.stream().filter(i -> i.id == id).findFirst().ifPresent(active -> dialogVbox.getChildren().add(new Text(
                 "Name: " + name + "\n"
-                        + "Radius: " +  "\n"
-                //+ "Velocity: " + (int)Math.sqrt((body.getVelX()*body.getVelX()) + (body.getVelY()*body.getVelX()))
-        ));
+                        + "Radius: " + active.radius + "\n"
+                        + "Velocity: " + (int)Math.sqrt((active.getVelX()*active.getVelX()) + (active.getVelY()*active.getVelX()))
+        )));
+
         Scene dialogScene = new Scene(dialogVbox, 150, 100);
         dialog.setScene(dialogScene);
         dialog.show();

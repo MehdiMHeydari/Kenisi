@@ -90,8 +90,8 @@ public class DrawingArea extends StackPane {
         @Override
         public void handle(MouseEvent event) {
             if (!pause) {
-                this.x = event.getSceneX();
-                this.y = event.getSceneY();
+                this.x = event.getX();
+                this.y = event.getY();
                 if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
                     time = Instant.now();
                     tool.mouseClick(event.getX(), event.getY());

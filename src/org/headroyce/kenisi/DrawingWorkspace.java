@@ -15,7 +15,7 @@ public class DrawingWorkspace extends Pane {
     private EventHandler<ActionEvent> openPlanetHandler;
     private final DrawingArea drawingArea;
 
-    public DrawingWorkspace(PlanetIndex p, DrawingArea da) {
+    public DrawingWorkspace(DrawingArea da) {
         drawingArea = da;
         Button pause = new Button();
         pause.setTooltip(new Tooltip("Pause"));
@@ -25,6 +25,15 @@ public class DrawingWorkspace extends Pane {
         imageView.setFitWidth(30);
         pause.setGraphic(imageView);
         pause.setOnAction(actionEvent -> {
+            if (pause.getStyleClass().contains("active")) {
+                pause.getStyleClass().remove("active");
+                pause.setEffect(null);
+            } else {
+                pause.getStyleClass().add("active");
+                ColorAdjust ca = new ColorAdjust();
+                ca.setBrightness(-0.5);
+                pause.setEffect(ca);
+            }
             drawingArea.pauseGame();
         });
         pause.layoutXProperty().bind(this.widthProperty().subtract(pause.widthProperty()));
@@ -41,8 +50,7 @@ public class DrawingWorkspace extends Pane {
             if (openPlanet.getStyleClass().contains("active")) {
                 openPlanet.getStyleClass().remove("active");
                 openPlanet.setEffect(null);
-            }
-            else {
+            } else {
                 openPlanet.getStyleClass().add("active");
                 ColorAdjust ca = new ColorAdjust();
                 ca.setBrightness(-0.5);
@@ -63,17 +71,20 @@ public class DrawingWorkspace extends Pane {
 
     /**
      * Opens planet index
-     * @param handler
-     * Worst-case time complexity: O(1)
+     *
+     * @param handler Worst-case time complexity: O(1)
      */
-    public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
+    public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler) {
         openPlanetHandler = handler;
     }
 
     /**
      * Sets active planet
+     *
      * @param p Active plan to set to
-     * Worst-case time complexity: O(1)
+     *          Worst-case time complexity: O(1)
      */
-    public void setActivePlanet( Plan p ){ drawingArea.setActivePlanet(p); }
+    public void setActivePlanet(Plan p) {
+        drawingArea.setActivePlanet(p);
+    }
 }
