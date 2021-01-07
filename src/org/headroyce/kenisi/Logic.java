@@ -69,7 +69,8 @@ public class Logic {
                                 } else if (localplanet.cordRadius >= primaryplanet.cordRadius * 1.5) {
                                     tool.removePlanet(primaryplanet.id);
                                     tool.removePlanet(localplanet.id);
-                                    tool.addPlanet((primaryplanet.radius + localplanet.radius / 4), primX, primY, primaryplanet.getVelX(), primaryplanet.getVelY());
+                                    tool.addPlanet((localplanet.radius + primaryplanet.radius / 4), localX, localY, localplanet.getVelX(), localplanet.getVelY());
+
                                 } else {
                                     if (planets.size() != 0) {
                                         //insert random scatter spawn here
