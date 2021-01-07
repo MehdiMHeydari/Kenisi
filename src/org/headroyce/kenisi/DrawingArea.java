@@ -24,7 +24,7 @@ public class DrawingArea extends StackPane {
     private Double radius;
     private boolean mouseHeld;
     private boolean pause;
-    private final Logic logic;
+    private Logic logic;
     private static PlanetIndex plan;
     private final MouseHandler handler;
     private UUID activePlan;
