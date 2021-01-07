@@ -144,13 +144,13 @@ public class DrawingArea extends StackPane {
      * Worst-case time complexity: O(1)
      */
     public void pauseGame() {
-        if (!pause) {
-            pause = true;
-            logic.stop();
+        if (!this.pause) {
+            this.pause = true;
+            this.logic.stop();
         }
         else {
-            pause = false;
-            logic.start();
+            this.pause = false;
+            this.logic.start();
         }
     }
 
