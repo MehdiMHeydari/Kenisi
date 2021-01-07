@@ -24,8 +24,8 @@ public class DrawingArea extends StackPane {
     private Double radius;
     private boolean mouseHeld;
     private boolean pause;
-    private Logic logic;
-    private PlanetIndex plan;
+    private final Logic logic;
+    private static PlanetIndex plan;
     private final MouseHandler handler;
     private UUID activePlan;
 
@@ -127,7 +127,7 @@ public class DrawingArea extends StackPane {
      * Worst-case time complexity: O(1)
      */
     public void delete() {
-        tool.bodies.clear();
+        Body_Tool.bodies.clear();
     }
 
     /**
@@ -152,6 +152,13 @@ public class DrawingArea extends StackPane {
             pause = false;
             logic.start();
         }
+    }
+
+    public static PlanetIndex PlanetIndexFactory () {
+        if (plan == null) {
+            plan = new PlanetIndex();
+        }
+        return plan;
     }
 }
 

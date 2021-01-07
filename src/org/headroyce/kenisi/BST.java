@@ -2,6 +2,7 @@ package org.headroyce.kenisi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A Binary Search Tree (BST)
@@ -23,16 +24,17 @@ public class BST<T extends Comparable<T>> {
      * by the comparator
      *
      * @param data the data to add
+     * @param id
      */
-    public void add(T data) { //Time Complexity: O(n)
+    public void add(T data, UUID id) { //Time Complexity: O(n)
         //checks for empty tree
         if (root == null) {
-            root = new Node<>();
+            root = new Node<>(id);
             root.data = data;
 
         } else {
             Node<T> currentnode = root;
-            Node<T> adding = new Node<>();
+            Node<T> adding = new Node<>(id);
             adding.data = data;
             //iterates through tree to get to node and add node
             while (currentnode != null) {
@@ -103,10 +105,10 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * Removes the first element equal to data when using the comparator function
-     * @param id the element to compare with
+     * @param plan the element to compare with
      * @return the exact data removed from the BST
      */
-    public T remove(T id) { //Time Complexity: O(n)
+    public T remove(T plan) { //Time Complexity: O(n)
         if (root == null) {
             return null;
         }
@@ -114,11 +116,11 @@ public class BST<T extends Comparable<T>> {
         Node<T> curr = this.root;
 
         while (curr != null) {
-            if (curr.data.compareTo(id) == 0) {
+            if (curr.data.compareTo(plan) == 0) {
                 return removeNode(curr, parent);
             } else {
                 parent = curr;
-                if (curr.data.compareTo(id) < 0) {
+                if (curr.data.compareTo(plan) < 0) {
                     curr = curr.right;
                 } else {
                     curr = curr.left;
@@ -128,6 +130,23 @@ public class BST<T extends Comparable<T>> {
         return null;
     }
 
+    public void removeById (UUID id) {
+       for (Node<T> i : this.nodeInOrder(this.root, new ArrayList<>())) {
+           if (i.id == id) {
+               this.remove(i.data);
+           }
+       }
+    }
+
+    private List<Node<T>> nodeInOrder (Node<T> curr, List<Node<T>> list) {
+        if (curr == null) {
+            return list;
+        }
+        nodeInOrder(curr.left, list);
+        list.add(curr);
+        nodeInOrder(curr.right, list);
+        return list;
+    }
 
     /**
      * Completes an inOrder traversal of the BST
@@ -164,7 +183,12 @@ public class BST<T extends Comparable<T>> {
     private class Node<E extends Comparable<E>> {
         //data[0] = id data[1] = name
         public E data;
+        public final UUID id;
         public Node<E> left;
         public Node<E> right;
+
+        public Node (UUID id) {
+            this.id = id;
+        }
     }
 }

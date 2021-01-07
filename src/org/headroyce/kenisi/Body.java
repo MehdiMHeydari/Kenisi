@@ -13,7 +13,7 @@ public class Body {
     public final double mass; //use mass to determine gravitational well
     private double x, y; //the x and y coordinates of the center of the body
     private double velX, velY; //the x and y velocity of the body
-    private final Color color;
+    private Color color;
     public final UUID id;
 
     public Body(UUID id, double cordRadius, double radius, double posX, double posY, double velX, double velY, Color color) { //initialize body object with attributes from UI
@@ -60,6 +60,10 @@ public class Body {
         return this.color;
     }
 
+    public void setColor (Color color) {
+        this.color = color;
+    }
+
     /**
      * moves body based on x and y velocity
      * worst case time complexity O(1)
@@ -69,26 +73,25 @@ public class Body {
         this.y += this.velY / 17;
     }
 
-    public boolean collision(Body localplanet) {
+    public boolean collision(Body localPlanet) {
         double primX = this.x;
         double primY = this.y;
-        double localX = localplanet.getX();
-        double localY = localplanet.getY();
+        double localX = localPlanet.getX();
+        double localY = localPlanet.getY();
 
-       /*if (((localX - localplanet.radius <= primX + this.radius) && (localX + localplanet.radius >= primX + this.radius))  || ((localX + localplanet.radius >= primX - this.radius) && (localX - localplanet.radius <= primX - this.radius))){
-              return ((localY - localplanet.radius <= primY + this.radius) && (localY + localplanet.radius >= primY + this.radius) ) || ((localY + localplanet.radius >= primY - this.radius) && (localY - localplanet.radius <= primY - this.radius));
+       /*if (((localX - localPlanet.radius <= primX + this.radius) && (localX + localPlanet.radius >= primX + this.radius))  || ((localX + localPlanet.radius >= primX - this.radius) && (localX - localPlanet.radius <= primX - this.radius))){
+              return ((localY - localPlanet.radius <= primY + this.radius) && (localY + localPlanet.radius >= primY + this.radius) ) || ((localY + localPlanet.radius >= primY - this.radius) && (localY - localPlanet.radius <= primY - this.radius));
            }
         i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
-        double primrad = this.radius * ;
+        double primRad = this.radius * ;
         */
 
-        return (distance(primX, primY, localX, localY)) <= (this.cordRadius / 1.5 + localplanet.cordRadius / 1.5);
+        return (distance(primX, primY, localX, localY)) <= (this.cordRadius / 1.5 + localPlanet.cordRadius / 1.5);
     }
 
     public double distance(double x1, double y1, double x2, double y2) {
         double x = Math.pow((x2 - x1), 2);
         double y = Math.pow((y2 - y1), 2);
-        // System.out.println("distance: " + Math.sqrt(x + y));
         return Math.sqrt(x + y);
     }
 

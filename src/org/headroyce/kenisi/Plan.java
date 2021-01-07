@@ -45,7 +45,6 @@ public class Plan {
             this.title.setValue(title);
             rtn = true;
         }
-
         return rtn;
     }
 }
