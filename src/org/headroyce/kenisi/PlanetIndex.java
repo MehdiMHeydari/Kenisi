@@ -22,16 +22,17 @@ public class PlanetIndex extends VBox {
     private int sortMode;
     private final String[] sortImages = {"sort.png", "sortdown.png", "sortup.png"};
     private String name;
-    private DrawingWorkspace dw;
     private final DrawingArea da;
     private Stage primaryStage;
     private final VBox plansArea;
+    private final DrawingWorkspace dw;
     private static BST<PlansIndexItem> sortByTitle;
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
 
     public PlanetIndex() {
         sortByTitle = new BST<>();
-        da = new DrawingArea(dw, this);
+        da = new DrawingArea(this);
+        dw = new DrawingWorkspace(this, da);
         name = "Untitled";
         primaryStage = new Stage();
         plansArea = new VBox();
@@ -269,5 +270,9 @@ public class PlanetIndex extends VBox {
         Scene dialogScene = new Scene(dialogVbox, 150, 100);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    public DrawingWorkspace getDrawingWorkspace () {
+        return this.dw;
     }
 }

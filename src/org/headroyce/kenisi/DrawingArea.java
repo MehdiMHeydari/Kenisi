@@ -18,22 +18,20 @@ public class DrawingArea extends StackPane {
     private final Canvas mainCanvas;
 
     // All the selected shapes in the world
-    private final DrawingWorkspace mainWorkspace;
     private Instant time;
     private final Body_Tool tool;
     private Double radius;
     private boolean mouseHeld;
     private boolean pause;
-    private Logic logic;
+    private final Logic logic;
     private static PlanetIndex plan;
     private final MouseHandler handler;
     private UUID activePlan;
 
-    public DrawingArea(DrawingWorkspace mw, PlanetIndex p) {
+    public DrawingArea(PlanetIndex p) {
         mouseHeld = false;
         pause = false;
         tool = new Body_Tool();
-        mainWorkspace = mw;
         plan = p;
         mainCanvas = new Canvas();
         AnimTimer timer = new AnimTimer();
@@ -65,13 +63,13 @@ public class DrawingArea extends StackPane {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
             Body_Tool.bodies.forEach(i -> {
-                radius = i.radius / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+                radius = i.cordRadius;
                 gc.setFill(i.getColor());
                 gc.fillOval(i.getX() - radius / 2, i.getY() - radius / 2, radius, radius);
             });
             if (mouseHeld) {
                 gc.setFill(Color.BLACK);
-                radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / (Math.sqrt(mainCanvas.computeAreaInScreen()) / 10);
+                radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / 100.0;
                 gc.fillOval(handler.getX() - radius / 2, handler.getY() - radius / 2, radius, radius);
             }
         }

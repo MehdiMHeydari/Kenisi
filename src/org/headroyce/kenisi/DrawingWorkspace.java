@@ -15,9 +15,8 @@ public class DrawingWorkspace extends Pane {
     private EventHandler<ActionEvent> openPlanetHandler;
     private final DrawingArea drawingArea;
 
-    public DrawingWorkspace(PlanetIndex p) {
-        drawingArea = new DrawingArea(this, p);
-
+    public DrawingWorkspace(PlanetIndex p, DrawingArea da) {
+        drawingArea = da;
         Button pause = new Button();
         pause.setTooltip(new Tooltip("Pause"));
         Image img = new Image(getClass().getResourceAsStream("/images/pause.png"));
@@ -76,7 +75,5 @@ public class DrawingWorkspace extends Pane {
      * @param p Active plan to set to
      * Worst-case time complexity: O(1)
      */
-    public void setActivePlanet( Plan p ){
-        drawingArea.setActivePlanet(p);
-    }
+    public void setActivePlanet( Plan p ){ drawingArea.setActivePlanet(p); }
 }

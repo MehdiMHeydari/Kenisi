@@ -11,7 +11,7 @@ public class MainWorkspace extends BorderPane {
     public MainWorkspace(){
         plansIndex = new PlanetIndex();
         plansIndex.prefWidthProperty().bind(this.widthProperty().divide(3));
-        DrawingWorkspace dw = new DrawingWorkspace(plansIndex);
+        DrawingWorkspace dw = plansIndex.getDrawingWorkspace();
 
         dw.setOnOpenPlanetIndex(actionEvent -> {
             if (plansIndex.getParent() != null) {

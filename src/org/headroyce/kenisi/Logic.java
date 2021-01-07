@@ -15,26 +15,18 @@ public class Logic {
     private final gameRun gameRunner;
     private final LinkedList<Body> planets;
     private final Body_Tool tool;
-    private boolean gameRunning;
 
     public Logic() {
         this.gameRunner = new gameRun();
         this.tool = new Body_Tool();
         this.planets = Body_Tool.bodies;
-        this.gameRunning = false;
     }
 
     public void start() {
-        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-        StackTraceElement e = stacktrace[2];//maybe this number needs to be corrected
-        String methodName = e.getMethodName();
-        System.out.println(methodName);
         gameRunner.start();
-        this.gameRunning = true;
     }
 
     public void stop() {
-        this.gameRunning = false;
         gameRunner.stop();
     }
 
@@ -48,7 +40,7 @@ public class Logic {
 
         public void handle(long timein) {
             timein = timein / 1000; //convert nanoseconds to milliseconds
-            if (timein - time >= tick && gameRunning) {
+            if (timein - time >= tick) {
                 Body primaryplanet;
                 Body localplanet;
                 for (int i = 0; i < planets.size(); i++) {
