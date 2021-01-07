@@ -16,8 +16,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PlanetIndex extends VBox {
+    private int sortMode;
+
+    private final String[] sortImages = {"sort.png", "sortdown.png", "sortup.png"};
+
     private String name;
 
     private DrawingWorkspace dw;
@@ -27,16 +33,24 @@ public class PlanetIndex extends VBox {
     private Stage primaryStage;
 
     private final VBox plansArea;
+
     private ArrayList<Plan> plans;
+
+    private static BST<PlansIndexItem> sortByTitle;
 
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
 
     public PlanetIndex() {
+        sortByTitle = new BST<>();
+
         da = new DrawingArea(dw, this);
 
         name = "Untitled";
 
         primaryStage = new Stage();
+
+        plansArea = new VBox();
+        plansArea.getStyleClass().add("planetIndexList");
 
         Label title = new Label("Planets");
         title.prefWidthProperty().bind(this.widthProperty());
@@ -60,13 +74,33 @@ public class PlanetIndex extends VBox {
 
         Button sortingButton = new Button();
         sortingButton.setTooltip(new Tooltip("Sort"));
-        Image img = new Image(getClass().getResourceAsStream("/images/sort.png"));
+        Image img = new Image(getClass().getResourceAsStream("/images/"+sortImages[sortMode]));
         ImageView imageView = new ImageView(img);
         imageView.setFitWidth(30);
         imageView.setFitHeight(30);
         sortingButton.setGraphic(imageView);
-        sortingButton.setOnAction(actionEvent -> {
+        sortingButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
 
+                // When the button is selected then we change the icon
+                // and reorder the plans based on the new ordering
+                sortMode = (sortMode+1) % 3;
+
+                Image img = new Image(getClass().getResourceAsStream("/images/"+sortImages[sortMode]));
+                ((ImageView)sortingButton.getGraphic()).setImage(img);
+                if( sortMode != 0 ) {
+                    List<PlansIndexItem> order = sortByTitle.inOrder();
+
+                    // Suggestions by Otto Reed
+                    // Descending Order
+                    if( sortMode == 2 ){
+                        Collections.reverse(order);
+                    }
+                    plansArea.getChildren().clear();
+                    plansArea.getChildren().addAll(order);
+                }
+            }
         });
 
         Button delete = new Button();
@@ -77,17 +111,15 @@ public class PlanetIndex extends VBox {
         imageView.setFitHeight(30);
         delete.setGraphic(imageView);
         delete.setOnAction(actionEvent -> {
+            plansArea.getChildren().clear();
             da.delete();
         });
+
+        this.getChildren().addAll(title, tools, plansArea);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         tools.getChildren().addAll(sortingButton, spacer, delete);
-
-        plansArea = new VBox();
-        plansArea.getStyleClass().add("planetIndexList");
-
-        this.getChildren().addAll(title, tools, plansArea);
     }
 
     /**
@@ -114,6 +146,9 @@ public class PlanetIndex extends VBox {
 
         plansArea.getChildren().add(0, guiItem);
 
+        // Add the new plan to our BST
+        sortByTitle.add(guiItem);
+
         // fire the selection event to display the new plan
         if( selectedPlanetEventHandler != null ){
             ActionEvent evt = new ActionEvent(p, Event.NULL_SOURCE_TARGET);
@@ -130,13 +165,30 @@ public class PlanetIndex extends VBox {
         this.selectedPlanetEventHandler = handler;
     }
 
-    private class PlansIndexItem extends HBox {
+    private class PlansIndexItem extends HBox implements Comparable<PlansIndexItem> {
 
         private CheckBox selected;
         private TextField title;
         private Button info;
 
         private Plan plan;
+
+        @Override
+        /**
+         * Compare list items to each other
+         */
+        public int compareTo(PlansIndexItem other) {
+
+            // If the string version are the same, then we consider the plan
+            // equal to each other (this allows two plans of the same title)
+            int hashCompare = this.toString().compareTo(other.toString());
+            if( hashCompare == 0 ){
+                return 0;
+            }
+
+            // The String versions are the same, so compare titles
+            return this.plan.getTitle().compareTo(other.plan.getTitle());
+        }
 
         public PlansIndexItem(Plan plan){
             if( plan == null ) throw new IllegalArgumentException("Plan cannot be null");

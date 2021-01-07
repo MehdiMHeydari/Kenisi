@@ -2,7 +2,6 @@ package org.headroyce.kenisi;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
@@ -27,7 +26,7 @@ public class DrawingWorkspace extends Pane {
         imageView.setFitWidth(30);
         pause.setGraphic(imageView);
         pause.setOnAction(actionEvent -> {
-            drawingArea.pause();
+            drawingArea.pauseGame();
         });
         pause.layoutXProperty().bind(this.widthProperty().subtract(pause.widthProperty()));
 

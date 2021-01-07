@@ -37,4 +37,8 @@ public class Body_Tool {
         bodies.add(new Body(id, cordradius, radius, x, y, velX, velY, color));
         return id;
     }
+
+    public void setActive(UUID id) {
+
+    }
 }

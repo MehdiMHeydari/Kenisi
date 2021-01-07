@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
@@ -28,6 +27,7 @@ public class DrawingArea extends StackPane {
     private Logic logic;
     private PlanetIndex plan;
     private final MouseHandler handler;
+    private UUID activePlan;
 
     public DrawingArea(DrawingWorkspace mw, PlanetIndex p) {
         mouseHeld = false;
@@ -118,12 +118,16 @@ public class DrawingArea extends StackPane {
         }
     }
 
+    public UUID getActivePlan() {
+        return activePlan;
+    }
+
     /**
-     * Deletes Planets
-     * Worst-case time complexity:
+     * Deletes all Planets
+     * Worst-case time complexity: O(1)
      */
     public void delete() {
-
+        tool.bodies.clear();
     }
 
     /**
@@ -131,14 +135,15 @@ public class DrawingArea extends StackPane {
      * @param p Plan to set to
      */
     public void setActivePlanet(Plan p) {
-
+        activePlan = p.id;
+        tool.setActive(activePlan);
     }
 
     /**
      * Pauses game
      * Worst-case time complexity: O(1)
      */
-    public void pause() {
+    public void pauseGame() {
         if (!pause) {
             pause = true;
             logic.stop();
