@@ -16,21 +16,20 @@ public class DrawingWorkspace extends Pane {
     private EventHandler<ActionEvent> openPlanetHandler;
     private final DrawingArea drawingArea;
 
-    public DrawingWorkspace() {
-        drawingArea = new DrawingArea(this);
+    public DrawingWorkspace(PlanetIndex p) {
+        drawingArea = new DrawingArea(this, p);
 
-        Button delete = new Button();
-        delete.setTooltip(new Tooltip("Delete"));
-        Image img = new Image(getClass().getResourceAsStream("/images/trash.png"));
+        Button pause = new Button();
+        pause.setTooltip(new Tooltip("Pause"));
+        Image img = new Image(getClass().getResourceAsStream("/images/pause.png"));
         ImageView imageView = new javafx.scene.image.ImageView(img);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
-        delete.setGraphic(imageView);
-        delete.setAlignment(Pos.BOTTOM_LEFT);
-        delete.setOnAction(actionEvent -> {
-
+        pause.setGraphic(imageView);
+        pause.setOnAction(actionEvent -> {
+            drawingArea.pause();
         });
-        delete.layoutYProperty().bind(this.heightProperty().subtract(delete.heightProperty()));
+        pause.layoutXProperty().bind(this.widthProperty().subtract(pause.widthProperty()));
 
         openPlanet = new Button();
         openPlanet.setTooltip(new Tooltip("Planet"));
@@ -44,7 +43,8 @@ public class DrawingWorkspace extends Pane {
             if (openPlanet.getStyleClass().contains("active")) {
                 openPlanet.getStyleClass().remove("active");
                 openPlanet.setEffect(null);
-            } else {
+            }
+            else {
                 openPlanet.getStyleClass().add("active");
                 ColorAdjust ca = new ColorAdjust();
                 ca.setBrightness(-0.5);
@@ -59,15 +59,25 @@ public class DrawingWorkspace extends Pane {
         drawingArea.prefWidthProperty().bind(this.widthProperty());
 
         this.getChildren().add(drawingArea);
-        this.getChildren().add(delete);
+        this.getChildren().add(pause);
         this.getChildren().add(openPlanet);
     }
 
-    public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler) {
+    /**
+     * Opens planet index
+     * @param handler
+     * Worst-case time complexity: O(1)
+     */
+    public void setOnOpenPlanetIndex(EventHandler<ActionEvent> handler){
         openPlanetHandler = handler;
     }
 
-    public void setActivePlanet(Plan p) {
+    /**
+     * Sets active planet
+     * @param p Active plan to set to
+     * Worst-case time complexity: O(1)
+     */
+    public void setActivePlanet( Plan p ){
         drawingArea.setActivePlanet(p);
     }
 }
