@@ -131,7 +131,7 @@ public class Logic {
                                                 //set Vel south
                                                 velYgen = 50 * totalvelY;
                                             }
-                                            if (radgen > 7) {
+                                            if (radgen > 15) {
                                                 tool.addPlanet(UUID.randomUUID(), radgen, UIradgen, Xgen, Ygen, velXgen, velYgen);
                                             }
                                         }
