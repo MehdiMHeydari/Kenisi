@@ -16,7 +16,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,13 +29,11 @@ public class PlanetIndex extends VBox {
     private final DrawingWorkspace dw;
     private final BST<PlansIndexItem> sortByTitle;
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
-    private final HashMap<UUID, String> map;
 
     public PlanetIndex() {
         sortByTitle = new BST<>();
         da = new DrawingArea(this);
         dw = new DrawingWorkspace(da);
-        map = new HashMap<>();
         name = "Untitled";
         primaryStage = new Stage();
         plansArea = new VBox();
@@ -87,12 +84,14 @@ public class PlanetIndex extends VBox {
         imageView.setFitHeight(30);
         delete.setGraphic(imageView);
         delete.setOnAction(actionEvent -> {
+            //Clears canvas and deletes all plans
             plansArea.getChildren().clear();
             da.delete();
         });
 
         this.getChildren().addAll(title, tools, plansArea);
 
+        //Space between tools
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         tools.getChildren().addAll(sortingButton, spacer, delete);
@@ -133,7 +132,10 @@ public class PlanetIndex extends VBox {
     }
 
     public void removePlan (UUID id) {
+      // System.out.println("id" + id);
+       //System.out.println("Before " + plansArea.getChildren());
        plansArea.getChildren().remove(sortByTitle.removeById(id));
+       //System.out.println("After " + plansArea.getChildren());
     }
 
     /**
@@ -145,6 +147,7 @@ public class PlanetIndex extends VBox {
         this.selectedPlanetEventHandler = handler;
     }
 
+    // Each individual Planet
     private class PlansIndexItem extends HBox implements Comparable<PlansIndexItem> {
 
         private final Plan plan;
@@ -152,6 +155,15 @@ public class PlanetIndex extends VBox {
         @Override
         //Compare list items to each other
         public int compareTo(PlansIndexItem other) {
+
+            // If the string version are the same, then we consider the plan
+            // equal to each other (this allows two plans of the same title)
+            int hashCompare = this.toString().compareTo(other.toString());
+            if( hashCompare == 0 ){
+                return 0;
+            }
+
+            // The String versions are the same, so compare titles
             return this.plan.getTitle().compareTo(other.plan.getTitle());
         }
 
@@ -174,15 +186,16 @@ public class PlanetIndex extends VBox {
 
             this.setAlignment(Pos.CENTER);
 
+            //Title of each plan, the textbox
             title.setMaxWidth(Double.MAX_VALUE);
             HBox.setMargin(title, new Insets(5,5,5,5));
             HBox.setHgrow(title, Priority.ALWAYS);
             title.textProperty().addListener((observableValue, oldVal, newVal) -> {
                 // The text-field has changed (title)
                 // So remove the element from the BST, change the title, and then add it back
-                sortByTitle.remove(PlansIndexItem.this);
                 PlansIndexItem.this.plan.setTitle(newVal);
-                sortByTitle.add(PlansIndexItem.this, PlansIndexItem.this.plan.id);
+                name = newVal;
+
             });
             selected.prefHeightProperty().bind(this.heightProperty());
             HBox.setMargin(selected, new Insets(5,5,5,5));
@@ -222,6 +235,11 @@ public class PlanetIndex extends VBox {
         dialog.show();
     }
 
+    /**
+     * Gets a Drawing Workspace
+     * @return the drawing workspace
+     * Worst-case time complexity: O(1)
+     */
     public DrawingWorkspace getDrawingWorkspace () {
         return this.dw;
     }

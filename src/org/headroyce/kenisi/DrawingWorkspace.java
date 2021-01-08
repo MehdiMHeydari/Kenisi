@@ -17,6 +17,7 @@ public class DrawingWorkspace extends Pane {
 
     public DrawingWorkspace(DrawingArea da) {
         drawingArea = da;
+
         Button pause = new Button();
         pause.setTooltip(new Tooltip("Pause"));
         Image img = new Image(getClass().getResourceAsStream("/images/pause.png"));
@@ -25,6 +26,7 @@ public class DrawingWorkspace extends Pane {
         imageView.setFitWidth(30);
         pause.setGraphic(imageView);
         pause.setOnAction(actionEvent -> {
+            //Changes color of button on click
             if (pause.getStyleClass().contains("active")) {
                 pause.getStyleClass().remove("active");
                 pause.setEffect(null);
@@ -34,6 +36,7 @@ public class DrawingWorkspace extends Pane {
                 ca.setBrightness(-0.5);
                 pause.setEffect(ca);
             }
+            //Pauses game
             drawingArea.pauseGame();
         });
         pause.layoutXProperty().bind(this.widthProperty().subtract(pause.widthProperty()));
@@ -56,6 +59,7 @@ public class DrawingWorkspace extends Pane {
                 ca.setBrightness(-0.5);
                 openPlanet.setEffect(ca);
             }
+            //Opens planet handler
             if (openPlanetHandler != null) {
                 openPlanetHandler.handle(actionEvent);
             }
