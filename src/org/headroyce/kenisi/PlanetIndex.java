@@ -84,12 +84,14 @@ public class PlanetIndex extends VBox {
         imageView.setFitHeight(30);
         delete.setGraphic(imageView);
         delete.setOnAction(actionEvent -> {
+            //Clears canvas and deletes all plans
             plansArea.getChildren().clear();
             da.delete();
         });
 
         this.getChildren().addAll(title, tools, plansArea);
 
+        //Space between tools
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         tools.getChildren().addAll(sortingButton, spacer, delete);
@@ -145,6 +147,7 @@ public class PlanetIndex extends VBox {
         this.selectedPlanetEventHandler = handler;
     }
 
+    // Each individual Planet
     private class PlansIndexItem extends HBox implements Comparable<PlansIndexItem> {
 
         private final Plan plan;
@@ -165,6 +168,7 @@ public class PlanetIndex extends VBox {
         }
 
         public PlansIndexItem(Plan plan){
+            this.getStyleClass().add("plansIndexItems");
             if( plan == null ) throw new IllegalArgumentException("Plan cannot be null");
             this.plan = plan;
             CheckBox selected = new CheckBox();
@@ -182,6 +186,7 @@ public class PlanetIndex extends VBox {
 
             this.setAlignment(Pos.CENTER);
 
+            //Title of each plan, the textbox
             title.setMaxWidth(Double.MAX_VALUE);
             HBox.setMargin(title, new Insets(5,5,5,5));
             HBox.setHgrow(title, Priority.ALWAYS);
@@ -230,6 +235,11 @@ public class PlanetIndex extends VBox {
         dialog.show();
     }
 
+    /**
+     * Gets a Drawing Workspace
+     * @return the drawing workspace
+     * Worst-case time complexity: O(1)
+     */
     public DrawingWorkspace getDrawingWorkspace () {
         return this.dw;
     }

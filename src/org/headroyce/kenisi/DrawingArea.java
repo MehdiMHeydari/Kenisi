@@ -62,13 +62,15 @@ public class DrawingArea extends StackPane {
         public void handle(long now) {
             GraphicsContext gc = mainCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+            //Sets radius of planet
             Body_Tool.bodies.forEach(i -> {
                 radius = i.radius / 100;
                 gc.setFill(i.getColor());
                 gc.fillOval(i.getX() - radius / 2, i.getY() - radius / 2, radius, radius);
             });
             if (mouseHeld) {
-                gc.setFill(Color.BLACK);
+                //Slowly increases size of planet while mouse is held
+                gc.setFill(Color.WHITE);
                 radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / 100.0;
                 gc.fillOval(handler.getX() - radius / 2, handler.getY() - radius / 2, radius, radius);
             }
@@ -92,6 +94,7 @@ public class DrawingArea extends StackPane {
             if (!pause) {
                 this.x = event.getX();
                 this.y = event.getY();
+                //Creates planet on mouse click
                 if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
                     time = Instant.now();
                     tool.mouseClick(event.getX(), event.getY());
@@ -116,6 +119,11 @@ public class DrawingArea extends StackPane {
         }
     }
 
+    /**
+     * Get the id of the active plan
+     * @return the active plan
+     * Worst-case time complexity: O(1)
+     */
     public UUID getActivePlan() {
         return activePlan;
     }
@@ -152,6 +160,11 @@ public class DrawingArea extends StackPane {
         }
     }
 
+    /**
+     * returns plan
+     * @return plan
+     * Worst-case time complexity: O(1)
+     */
     public static PlanetIndex PlanetIndexFactory () {
         if (plan == null) {
             plan = new PlanetIndex();
