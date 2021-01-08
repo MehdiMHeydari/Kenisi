@@ -4,16 +4,13 @@ package org.headroyce.kenisi;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
  * All information regarding a sketch
  */
 public class Plan {
-    private StringProperty title;
-    private Date timeCreated;
-    private Date timeModified;
+    private final StringProperty title;
     public final UUID id;
 
     /**
@@ -27,8 +24,6 @@ public class Plan {
         this.id = id;
         this.title = new SimpleStringProperty();
         setTitle(title);
-        timeCreated = new Date();
-        timeModified = new Date();
     }
 
     public StringProperty titleProperty() {

@@ -38,10 +38,7 @@ public class Body_Tool {
         double velY = 1000 * (y - this.startY) / duration; //velocity = l1 norm of space with velX and velY vectors
         double velX = 1000 * (x - this.startX) / duration; //velX = x2 - x1 / time in seconds
 
-        Color color = Color.color(Math.random(), Math.random(), Math.random()); //set random color, make sure it's not red
-        while (color == Color.RED) { //if it is red, generate new random colors until it isn't
-            color = Color.color(Math.random(), Math.random(), Math.random());
-        }
+        Color color = Color.color(0, Math.random(), Math.random()); //set random color, R value is 0 to make sure it's not red
         UUID id = UUID.randomUUID(); //set random UUID for new body object, this will be returned to UI
         bodies.add(new Body(id, radius / 100.0, radius, x, y, velX, velY, color)); //add object to linkedlist, radius/100 = cordRadius for logic
         return id;
@@ -55,7 +52,7 @@ public class Body_Tool {
     public void removePlanet (UUID id) {
         bodies.removeIf(i -> i.id == id); //first remove body from linkedlist
         PlanetIndex.BSTFactory().removeById(id); //now remove body from BST of plans
-        DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex
+        //DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex
     }
 
     /**
@@ -69,14 +66,11 @@ public class Body_Tool {
      * worst case time complexity O(n)
      */
     public void addPlanet (UUID id, double cordRadius, double radius, double x, double y, double velX, double velY) { //void because it's not called by UI, method parameters are calculated in logic
-        Color color = Color.color(Math.random(), Math.random(), Math.random()); //same color generation as above
-        while (color == Color.RED) {
-            color = Color.color(Math.random(), Math.random(), Math.random());
-        }
+        Color color = Color.color(0, Math.random(), Math.random()); //same color generation as above
         bodies.addLast(new Body(id, cordRadius, radius, x, y, velX, velY, color)); //add body to the end of the linkedlist
         Plan newPlan = new Plan(null, id); //create new plan with matching UUID
         DrawingArea.PlanetIndexFactory().addPlan(newPlan); //add plan to the PlanetIndex
-        DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex
+        //DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex
     }
 
     /**
@@ -86,10 +80,10 @@ public class Body_Tool {
      */
     public void setActive(UUID id) {
         for (Body i : bodies) {
-            if ( i.id == this.id) {
+            if ( i.id.compareTo(this.id) == 0) {
                 i.setColor(this.color);
             }
-            else if ( i.id == id) {
+            else if ( i.id.compareTo(id) == 0) {
                 this.id = id;
                 this.color = i.getColor();
                 i.setColor(Color.RED);

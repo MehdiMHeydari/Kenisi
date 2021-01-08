@@ -81,12 +81,12 @@ public class Logic {
 
                                         double midpointX = (primX + localX)/2;
                                         double midpointY = (primY + localY)/2;
-                                        Integer[] Xgenarray = new Integer[1 * ((int)(primaryplanet.cordRadius + localplanet.cordRadius))];
+                                        Integer[] Xgenarray = new Integer[((int) (primaryplanet.cordRadius + localplanet.cordRadius))];
                                         for (int x = 0; x < Xgenarray.length; x++) {
                                             Xgenarray[x] = (int) midpointX + (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)/2))) + x;
                                         }
 
-                                        Integer[] Ygenarray = new Integer[1 * ((int)(primaryplanet.cordRadius + localplanet.cordRadius))];
+                                        Integer[] Ygenarray = new Integer[((int) (primaryplanet.cordRadius + localplanet.cordRadius))];
                                         for (int y = 0; y < Ygenarray.length; y++) {
                                             Ygenarray[y] = (int) midpointY - (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)/2))) + y;
                                         }
@@ -99,8 +99,8 @@ public class Logic {
                                         //double totalvelY = primaryplanet.getVelY() + localplanet.getVelY();
 
                                         if ((planets.contains(primaryplanet) && planets.contains(localplanet)) &&
-                                                (planets.get(planets.indexOf(primaryplanet)) != null &&
-                                                        planets.get(planets.indexOf(localplanet)) != null)) {
+                                                (planets.get(planets.indexOf(primaryplanet)) != null
+                                                        && planets.get(planets.indexOf(localplanet)) != null)) {
                                             tool.removePlanet(localplanet.id);
                                             tool.removePlanet(primaryplanet.id);
                                         }
