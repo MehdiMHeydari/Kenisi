@@ -140,7 +140,8 @@ public class Logic {
                                                 //set Vel south
                                                 velYgen = -50 * totalvelY;
                                             }
-                                            //we make sure that the debris is of a certain size before spawning to make sure that we dont fractalize
+                                            //we make sure that the debris is of a certain size before spawning to make sure that we dont fractalize.
+                                            // Additionally when plantets hit such a small size we no longer count them as significant bodies
                                             if (radgen > 15) {
                                                 tool.addPlanet(UUID.randomUUID(), radgen, UIradgen, Xgen, Ygen, velXgen, velYgen);
                                             }
