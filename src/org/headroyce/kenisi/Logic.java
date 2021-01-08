@@ -81,14 +81,14 @@ public class Logic {
 
                                         double midpointX = (primX + localX)/2;
                                         double midpointY = (primY + localY)/2;
-                                        Integer[] Xgenarray = new Integer[((int) (primaryplanet.cordRadius + localplanet.cordRadius))];
+                                        Integer[] Xgenarray = new Integer[(2 * (int) (primaryplanet.cordRadius + localplanet.cordRadius))];
                                         for (int x = 0; x < Xgenarray.length; x++) {
-                                            Xgenarray[x] = (int) midpointX + (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)/2))) + x;
+                                            Xgenarray[x] = (int) midpointX - (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)))) + x;
                                         }
 
-                                        Integer[] Ygenarray = new Integer[((int) (primaryplanet.cordRadius + localplanet.cordRadius))];
+                                        Integer[] Ygenarray = new Integer[(2 * (int) (primaryplanet.cordRadius + localplanet.cordRadius))];
                                         for (int y = 0; y < Ygenarray.length; y++) {
-                                            Ygenarray[y] = (int) midpointY - (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)/2))) + y;
+                                            Ygenarray[y] = (int) midpointY - (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)))) + y;
                                         }
 
                                         Collections.shuffle(Arrays.asList(Xgenarray));
@@ -98,7 +98,7 @@ public class Logic {
                                         //double totalvelX = primaryplanet.getVelX() + localplanet.getVelX();
                                         //double totalvelY = primaryplanet.getVelY() + localplanet.getVelY();
 
-                                        if ((planets.contains(primaryplanet) && planets.contains(localplanet)) &&
+                                        if ((planets.indexOf(primaryplanet) != -1 && planets.indexOf(localplanet) != -1) &&
                                                 (planets.get(planets.indexOf(primaryplanet)) != null
                                                         && planets.get(planets.indexOf(localplanet)) != null)) {
                                             tool.removePlanet(localplanet.id);
@@ -116,6 +116,9 @@ public class Logic {
                                             double divide = ThreadLocalRandom.current().nextInt(5, 10);
                                             double radgen = radiusremaning / divide;
                                             double UIradgen = UIradiusremaining / divide;
+
+                                            radiusremaning -= radgen;
+                                            UIradiusremaining -= UIradgen;
 
                                             if (Xgen < primX) {
                                                 //set Vel west
