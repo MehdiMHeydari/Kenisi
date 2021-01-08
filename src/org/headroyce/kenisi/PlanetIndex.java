@@ -27,7 +27,7 @@ public class PlanetIndex extends VBox {
     private final Stage primaryStage;
     private final VBox plansArea;
     private final DrawingWorkspace dw;
-    private static BST<PlansIndexItem> sortByTitle;
+    private final BST<PlansIndexItem> sortByTitle;
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
 
     public PlanetIndex() {
@@ -129,13 +129,11 @@ public class PlanetIndex extends VBox {
         }
     }
 
-    public void render () {
-        List<PlansIndexItem> order = sortByTitle.inOrder();
-        if (sortMode == 2) {
-            Collections.reverse(order);
-        }
-        plansArea.getChildren().clear();
-        plansArea.getChildren().addAll(order);
+    public void removePlan (UUID id) {
+       System.out.println("id" + id);
+       System.out.println("Before " + plansArea.getChildren());
+       plansArea.getChildren().remove(sortByTitle.removeById(id));
+       System.out.println("After " + plansArea.getChildren());
     }
 
     /**
@@ -207,13 +205,6 @@ public class PlanetIndex extends VBox {
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             this.getChildren().addAll(title, info);
         }
-    }
-
-    public static BST<?> BSTFactory () {
-        if (sortByTitle == null) {
-            sortByTitle = new BST<>();
-        }
-        return sortByTitle;
     }
 
     /**
