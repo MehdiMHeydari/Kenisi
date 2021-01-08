@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,11 +30,13 @@ public class PlanetIndex extends VBox {
     private final DrawingWorkspace dw;
     private final BST<PlansIndexItem> sortByTitle;
     private EventHandler<ActionEvent> selectedPlanetEventHandler;
+    private final HashMap<UUID, String> map;
 
     public PlanetIndex() {
         sortByTitle = new BST<>();
         da = new DrawingArea(this);
         dw = new DrawingWorkspace(da);
+        map = new HashMap<>();
         name = "Untitled";
         primaryStage = new Stage();
         plansArea = new VBox();
@@ -130,10 +133,7 @@ public class PlanetIndex extends VBox {
     }
 
     public void removePlan (UUID id) {
-       System.out.println("id" + id);
-       System.out.println("Before " + plansArea.getChildren());
        plansArea.getChildren().remove(sortByTitle.removeById(id));
-       System.out.println("After " + plansArea.getChildren());
     }
 
     /**
@@ -152,15 +152,6 @@ public class PlanetIndex extends VBox {
         @Override
         //Compare list items to each other
         public int compareTo(PlansIndexItem other) {
-
-            // If the string version are the same, then we consider the plan
-            // equal to each other (this allows two plans of the same title)
-            int hashCompare = this.toString().compareTo(other.toString());
-            if( hashCompare == 0 ){
-                return 0;
-            }
-
-            // The String versions are the same, so compare titles
             return this.plan.getTitle().compareTo(other.plan.getTitle());
         }
 
@@ -188,9 +179,9 @@ public class PlanetIndex extends VBox {
             title.textProperty().addListener((observableValue, oldVal, newVal) -> {
                 // The text-field has changed (title)
                 // So remove the element from the BST, change the title, and then add it back
+                sortByTitle.remove(PlansIndexItem.this);
                 PlansIndexItem.this.plan.setTitle(newVal);
-                name = newVal;
-
+                sortByTitle.add(PlansIndexItem.this, PlansIndexItem.this.plan.id);
             });
             selected.prefHeightProperty().bind(this.heightProperty());
             HBox.setMargin(selected, new Insets(5,5,5,5));
