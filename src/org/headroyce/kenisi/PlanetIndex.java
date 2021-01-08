@@ -156,6 +156,7 @@ public class PlanetIndex extends VBox {
         }
 
         public PlansIndexItem(Plan plan){
+            this.getStyleClass().add("plansIndexItems");
             if( plan == null ) throw new IllegalArgumentException("Plan cannot be null");
             this.plan = plan;
             CheckBox selected = new CheckBox();
