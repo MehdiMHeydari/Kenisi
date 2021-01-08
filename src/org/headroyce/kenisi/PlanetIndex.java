@@ -132,10 +132,7 @@ public class PlanetIndex extends VBox {
     }
 
     public void removePlan (UUID id) {
-      // System.out.println("id" + id);
-       //System.out.println("Before " + plansArea.getChildren());
-       plansArea.getChildren().remove(sortByTitle.removeById(id));
-       //System.out.println("After " + plansArea.getChildren());
+        plansArea.getChildren().remove(sortByTitle.removeById(id));
     }
 
     /**
@@ -155,15 +152,12 @@ public class PlanetIndex extends VBox {
         @Override
         //Compare list items to each other
         public int compareTo(PlansIndexItem other) {
-
             // If the string version are the same, then we consider the plan
             // equal to each other (this allows two plans of the same title)
             int hashCompare = this.toString().compareTo(other.toString());
             if( hashCompare == 0 ){
                 return 0;
             }
-
-            // The String versions are the same, so compare titles
             return this.plan.getTitle().compareTo(other.plan.getTitle());
         }
 
@@ -193,9 +187,9 @@ public class PlanetIndex extends VBox {
             title.textProperty().addListener((observableValue, oldVal, newVal) -> {
                 // The text-field has changed (title)
                 // So remove the element from the BST, change the title, and then add it back
+                sortByTitle.remove(PlansIndexItem.this);
                 PlansIndexItem.this.plan.setTitle(newVal);
-                name = newVal;
-
+                sortByTitle.add(PlansIndexItem.this, PlansIndexItem.this.plan.id);
             });
             selected.prefHeightProperty().bind(this.heightProperty());
             HBox.setMargin(selected, new Insets(5,5,5,5));

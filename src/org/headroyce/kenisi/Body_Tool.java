@@ -78,12 +78,11 @@ public class Body_Tool {
      */
     public void setActive(UUID id) {
         for (Body i : bodies) {
-            if (this.id != null) {
-                if (i.id.compareTo(this.id) == 0) {
-                    i.setColor(this.color);
-                }
+            if (i.id == this.id) {
+                i.setColor(this.color);
+                this.id = null;
             }
-            if ( i.id.compareTo(id) == 0) {
+            if (i.id.compareTo(id) == 0) {
                 this.id = id;
                 this.color = i.getColor();
                 i.setColor(Color.RED);

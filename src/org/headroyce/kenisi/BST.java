@@ -62,7 +62,6 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * Removes a Node from the BST
-     *
      * @param curr   the node to remove
      * @param parent the parent of curr
      * @return the exact data removed
@@ -130,6 +129,12 @@ public class BST<T extends Comparable<T>> {
         return null;
     }
 
+    /**
+     * removes node from BST without needing the plans objecct
+     * @param id the id of the body to remove
+     * @return the data of the removed node
+     * worst case time complextiy O(n)
+     */
     public T removeById (UUID id) {
        for (Node<T> i : this.nodeInOrder(this.root, new ArrayList<>())) {
            if (i.id.compareTo(id) == 0) {
@@ -139,6 +144,13 @@ public class BST<T extends Comparable<T>> {
        return null;
     }
 
+    /**
+     * inorder traversal of nodes
+     * @param curr the current node
+     * @param list the lists of nodes
+     * @return the nodes of the BST sorted by name
+     * worst case time complexity O(n)
+     */
     private List<Node<T>> nodeInOrder (Node<T> curr, List<Node<T>> list) {
         if (curr == null) {
             return list;
