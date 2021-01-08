@@ -60,6 +60,7 @@ public class Body_Tool {
 
     /**
      * add body object to UI and logic, but only called by logic when collisions change the bodies in the system
+     * @param id the UUID of the body to add
      * @param radius the radius of the body object
      * @param x the x coordinate of the center of the body
      * @param y the y coordinate of the center of the body
@@ -67,13 +68,12 @@ public class Body_Tool {
      * @param velY the scalar on the y velocity vector (i) of the body
      * worst case time complexity O(n)
      */
-    public void addPlanet (double radius, double x, double y, double velX, double velY) { //void because it's not called by UI, method parameters are calculated in logic
+    public void addPlanet (UUID id, double cordRadius, double radius, double x, double y, double velX, double velY) { //void because it's not called by UI, method parameters are calculated in logic
         Color color = Color.color(Math.random(), Math.random(), Math.random()); //same color generation as above
         while (color == Color.RED) {
             color = Color.color(Math.random(), Math.random(), Math.random());
         }
-        UUID id = UUID.randomUUID(); //same UUID generation as above
-        bodies.addLast(new Body(id, radius / 100.0, radius, x, y, velX, velY, color)); //add body to the end of the linkedlist
+        bodies.addLast(new Body(id, cordRadius, radius, x, y, velX, velY, color)); //add body to the end of the linkedlist
         Plan newPlan = new Plan(null, id); //create new plan with matching UUID
         DrawingArea.PlanetIndexFactory().addPlan(newPlan); //add plan to the PlanetIndex
         DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex

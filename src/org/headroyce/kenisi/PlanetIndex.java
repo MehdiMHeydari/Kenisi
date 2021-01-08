@@ -24,7 +24,7 @@ public class PlanetIndex extends VBox {
     private final String[] sortImages = {"sort.png", "sortdown.png", "sortup.png"};
     private String name;
     private final DrawingArea da;
-    private Stage primaryStage;
+    private final Stage primaryStage;
     private final VBox plansArea;
     private final DrawingWorkspace dw;
     private static BST<PlansIndexItem> sortByTitle;
@@ -129,7 +129,7 @@ public class PlanetIndex extends VBox {
             }
         });
 
-        plansArea.getChildren().add(0, guiItem);
+        plansArea.getChildren().add(guiItem);
 
         // Add the new plan to our BST
         sortByTitle.add(guiItem, p.id);
@@ -165,12 +165,10 @@ public class PlanetIndex extends VBox {
         private TextField title;
         private Button info;
 
-        private Plan plan;
+        private final Plan plan;
 
         @Override
-        /**
-         * Compare list items to each other
-         */
+        //Compare list items to each other
         public int compareTo(PlansIndexItem other) {
 
             // If the string version are the same, then we consider the plan
