@@ -132,10 +132,10 @@ public class PlanetIndex extends VBox {
     }
 
     public void removePlan (UUID id) {
-       System.out.println("id" + id);
-       System.out.println("Before " + plansArea.getChildren());
+      // System.out.println("id" + id);
+       //System.out.println("Before " + plansArea.getChildren());
        plansArea.getChildren().remove(sortByTitle.removeById(id));
-       System.out.println("After " + plansArea.getChildren());
+       //System.out.println("After " + plansArea.getChildren());
     }
 
     /**
