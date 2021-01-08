@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -74,28 +75,28 @@ public class Logic {
                                 } else {
                                     if (planets.size() != 0) {
                                         //insert random scatter spawn here
-                                        int numdebris = ThreadLocalRandom.current().nextInt(2, 4);
+                                        Random rand = new Random();
+                                        int numdebris = rand.ints(4, 10).findFirst().getAsInt();
                                         double totalvelX = primaryplanet.getVelX() + localplanet.getVelX();
                                         double totalvelY = primaryplanet.getVelY() + localplanet.getVelY();
                                         double radiusremaning = primaryplanet.cordRadius + localplanet.cordRadius;
                                         double UIradiusremaining = primaryplanet.radius + localplanet.radius;
 
-                                        Integer[] Xgenarray = new Integer[(int) primaryplanet.cordRadius * 2];
+                                        double midpointX = (primX + localX)/2;
+                                        double midpointY = (primY + localY)/2;
+                                        Integer[] Xgenarray = new Integer[((int) (primaryplanet.cordRadius + localplanet.cordRadius))];
+
                                         for (int x = 0; x < Xgenarray.length; x++) {
-                                            Xgenarray[x] = (int) primX - (int) primaryplanet.cordRadius + x;
+                                            Xgenarray[x] = (int) midpointX + (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)/2))) + x;
                                         }
 
-                                        Integer[] Ygenarray = new Integer[(int) primaryplanet.cordRadius * 2];
+                                        Integer[] Ygenarray = new Integer[((int) (primaryplanet.cordRadius + localplanet.cordRadius))];
                                         for (int y = 0; y < Ygenarray.length; y++) {
-                                            Ygenarray[y] = (int) primY - (int) primaryplanet.cordRadius + y;
+                                            Ygenarray[y] = (int) midpointY - (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)/2))) + y;
                                         }
 
                                         Collections.shuffle(Arrays.asList(Xgenarray));
                                         Collections.shuffle(Arrays.asList(Ygenarray));
-
-                                        //double Vel = Math.sqrt(Math.pow(primaryplanet.getVelX(),2) + Math.pow(primaryplanet.getVelY(),2)) + Math.sqrt(Math.pow(localplanet.getVelX(),2) + Math.pow(localplanet.getVelY(),2));
-                                        //double totalvelX = primaryplanet.getVelX() + localplanet.getVelX();
-                                        //double totalvelY = primaryplanet.getVelY() + localplanet.getVelY();
 
                                         if (planets.contains(primaryplanet) && planets.contains(localplanet) &&
                                                 planets.get(planets.indexOf(primaryplanet)) != null
@@ -105,32 +106,33 @@ public class Logic {
                                         }
 
                                         for (int p = 0; p < numdebris; p++) {
-                                            // double Xgen = ThreadLocalRandom.current().nextInt((int) (primX - primaryplanet.cordRadius), (int) (primX + primaryplanet.cordRadius));
-                                            //double Ygen = ThreadLocalRandom.current().nextInt((int) (primY - primaryplanet.cordRadius), (int) (primY + primaryplanet.cordRadius));
                                             double Xgen = Xgenarray[p];
                                             double Ygen = Ygenarray[p];
                                             double velXgen;
                                             double velYgen;
-                                            double divide = ThreadLocalRandom.current().nextInt(2, 4);
+                                            double divide = ThreadLocalRandom.current().nextInt(5, 10);
                                             double radgen = radiusremaning / divide;
                                             double UIradgen = UIradiusremaining / divide;
 
-                                            if (Xgen < primX) {
+                                            radiusremaning -= radgen;
+                                            UIradiusremaining -= UIradgen;
+
+                                            if (Xgen < midpointX) {
                                                 //set Vel west
-                                                velXgen = -4 * Math.abs(totalvelX / numdebris);
+                                                velXgen = -50 * totalvelX;
                                             } else {
                                                 //set Vel east
-                                                velXgen = 4 * Math.abs(totalvelX / numdebris);
+                                                velXgen = 50 * totalvelX;
                                             }
 
-                                            if (Ygen < primY) {
-                                                //set Vel south
-                                                velYgen = -4 * Math.abs(totalvelY / numdebris);
-                                            } else {
+                                            if (Ygen < midpointY) {
                                                 //set Vel north
-                                                velYgen = 4 * Math.abs(totalvelY / numdebris);
+                                                velYgen = -50 * totalvelY;
+                                            } else {
+                                                //set Vel south
+                                                velYgen = 50 * totalvelY ;
                                             }
-                                            if (radgen > 25) {
+                                            if (radgen > 7) {
                                                 tool.addPlanet(UIradgen, Xgen, Ygen, velXgen, velYgen);
                                             }
                                         }

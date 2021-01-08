@@ -154,9 +154,7 @@ public class BST<T extends Comparable<T>> {
      */
     public List<T> inOrder() { //Time Complexity: O(1)
         List<T> list = new ArrayList<>();
-        list = inOrder(root, list);
-        return list;
-
+        return inOrder(root, list);
     }
 
     /**
