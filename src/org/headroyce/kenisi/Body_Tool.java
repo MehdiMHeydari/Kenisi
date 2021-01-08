@@ -50,9 +50,8 @@ public class Body_Tool {
      * worst case time complexity O(n)
      */
     public void removePlanet (UUID id) {
-        bodies.removeIf(i -> i.id == id); //first remove body from linkedlist
-        PlanetIndex.BSTFactory().removeById(id); //now remove body from BST of plans
-        DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex
+        bodies.removeIf(i -> i.id.compareTo(id) == 0); //first remove body from linkedlist
+        DrawingArea.PlanetIndexFactory().removePlan(id);
     }
 
     /**
@@ -70,7 +69,6 @@ public class Body_Tool {
         bodies.addLast(new Body(id, cordRadius, radius, x, y, velX, velY, color)); //add body to the end of the linkedlist
         Plan newPlan = new Plan(null, id); //create new plan with matching UUID
         DrawingArea.PlanetIndexFactory().addPlan(newPlan); //add plan to the PlanetIndex
-        DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex
     }
 
     /**
@@ -85,7 +83,7 @@ public class Body_Tool {
                     i.setColor(this.color);
                 }
             }
-            else if ( i.id.compareTo(id) == 0) {
+            if ( i.id.compareTo(id) == 0) {
                 this.id = id;
                 this.color = i.getColor();
                 i.setColor(Color.RED);

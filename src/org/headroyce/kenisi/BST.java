@@ -130,12 +130,13 @@ public class BST<T extends Comparable<T>> {
         return null;
     }
 
-    public void removeById (UUID id) {
+    public T removeById (UUID id) {
        for (Node<T> i : this.nodeInOrder(this.root, new ArrayList<>())) {
            if (i.id.compareTo(id) == 0) {
-               this.remove(i.data);
+               return this.remove(i.data);
            }
        }
+       return null;
     }
 
     private List<Node<T>> nodeInOrder (Node<T> curr, List<Node<T>> list) {
