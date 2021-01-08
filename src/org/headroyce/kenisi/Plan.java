@@ -34,13 +34,10 @@ public class Plan {
         return title.getValue();
     }
 
-    public boolean setTitle(String title) {
-        boolean rtn = false;
+    public void setTitle(String title) {
         if (title != null && !title.isBlank()) {
             this.title.setValue(title);
-            rtn = true;
         }
-        return rtn;
     }
 }
 
