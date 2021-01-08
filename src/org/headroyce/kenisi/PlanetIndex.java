@@ -117,11 +117,11 @@ public class PlanetIndex extends VBox {
             }
         });
 
-        plansArea.getChildren().add(0, guiItem);
+        plansArea.getChildren().add(guiItem);
 
         // Add the new plan to our BST
         sortByTitle.add(guiItem, p.id);
-
+        da.setActivePlanet(p);
         // fire the selection event to display the new plan
         if( selectedPlanetEventHandler != null ){
             ActionEvent evt = new ActionEvent(p, Event.NULL_SOURCE_TARGET);

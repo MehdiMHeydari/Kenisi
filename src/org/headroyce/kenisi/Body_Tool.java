@@ -38,10 +38,7 @@ public class Body_Tool {
         double velY = 1000 * (y - this.startY) / duration; //velocity = l1 norm of space with velX and velY vectors
         double velX = 1000 * (x - this.startX) / duration; //velX = x2 - x1 / time in seconds
 
-        Color color = Color.color(Math.random(), Math.random(), Math.random()); //set random color, make sure it's not red
-        while (color == Color.RED) { //if it is red, generate new random colors until it isn't
-            color = Color.color(Math.random(), Math.random(), Math.random());
-        }
+        Color color = Color.color(0, Math.random(), Math.random()); //set random color, R value is 0 to make sure it's not red
         UUID id = UUID.randomUUID(); //set random UUID for new body object, this will be returned to UI
         bodies.add(new Body(id, radius / 100.0, radius, x, y, velX, velY, color)); //add object to linkedlist, radius/100 = cordRadius for logic
         return id;
@@ -60,6 +57,7 @@ public class Body_Tool {
 
     /**
      * add body object to UI and logic, but only called by logic when collisions change the bodies in the system
+     * @param id the UUID of the body to add
      * @param radius the radius of the body object
      * @param x the x coordinate of the center of the body
      * @param y the y coordinate of the center of the body
@@ -67,13 +65,9 @@ public class Body_Tool {
      * @param velY the scalar on the y velocity vector (i) of the body
      * worst case time complexity O(n)
      */
-    public void addPlanet (double radius, double x, double y, double velX, double velY) { //void because it's not called by UI, method parameters are calculated in logic
-        Color color = Color.color(Math.random(), Math.random(), Math.random()); //same color generation as above
-        while (color == Color.RED) {
-            color = Color.color(Math.random(), Math.random(), Math.random());
-        }
-        UUID id = UUID.randomUUID(); //same UUID generation as above
-        bodies.addLast(new Body(id, radius / 100.0, radius, x, y, velX, velY, color)); //add body to the end of the linkedlist
+    public void addPlanet (UUID id, double cordRadius, double radius, double x, double y, double velX, double velY) { //void because it's not called by UI, method parameters are calculated in logic
+        Color color = Color.color(0, Math.random(), Math.random()); //same color generation as above
+        bodies.addLast(new Body(id, cordRadius, radius, x, y, velX, velY, color)); //add body to the end of the linkedlist
         Plan newPlan = new Plan(null, id); //create new plan with matching UUID
         DrawingArea.PlanetIndexFactory().addPlan(newPlan); //add plan to the PlanetIndex
         DrawingArea.PlanetIndexFactory().render(); //update the PlanetIndex
@@ -86,10 +80,12 @@ public class Body_Tool {
      */
     public void setActive(UUID id) {
         for (Body i : bodies) {
-            if ( i.id == this.id) {
-                i.setColor(this.color);
+            if (this.id != null) {
+                if (i.id.compareTo(this.id) == 0) {
+                    i.setColor(this.color);
+                }
             }
-            else if ( i.id == id) {
+            else if ( i.id.compareTo(id) == 0) {
                 this.id = id;
                 this.color = i.getColor();
                 i.setColor(Color.RED);

@@ -3,10 +3,7 @@ package org.headroyce.kenisi;
 
 import javafx.animation.AnimationTimer;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -14,8 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Logic {
     public static final int tick = 17; //updates every 17 milliseconds for 60 fps
     private final gameRun gameRunner;
-    private final LinkedList<Body> planets;
     private final Body_Tool tool;
+    private final LinkedList<Body> planets;
 
     public Logic() {
         this.gameRunner = new gameRun();
@@ -66,11 +63,11 @@ public class Logic {
                                 if (primaryplanet.cordRadius >= localplanet.cordRadius * 1.5) {
                                     tool.removePlanet(primaryplanet.id);
                                     tool.removePlanet(localplanet.id);
-                                    tool.addPlanet((primaryplanet.radius + localplanet.radius / 4), primX, primY, primaryplanet.getVelX(), primaryplanet.getVelY());
+                                    tool.addPlanet(primaryplanet.id, (primaryplanet.cordRadius + localplanet.cordRadius / 4), (primaryplanet.radius + localplanet.radius / 4), primX, primY, primaryplanet.getVelX(), primaryplanet.getVelY());
                                 } else if (localplanet.cordRadius >= primaryplanet.cordRadius * 1.5) {
                                     tool.removePlanet(primaryplanet.id);
                                     tool.removePlanet(localplanet.id);
-                                    tool.addPlanet((localplanet.radius + primaryplanet.radius / 4), localX, localY, localplanet.getVelX(), localplanet.getVelY());
+                                    tool.addPlanet(localplanet.id, (localplanet.cordRadius + primaryplanet.cordRadius / 4), (localplanet.radius + primaryplanet.radius / 4), localX, localY, localplanet.getVelX(), localplanet.getVelY());
 
                                 } else {
                                     if (planets.size() != 0) {
@@ -85,7 +82,6 @@ public class Logic {
                                         double midpointX = (primX + localX)/2;
                                         double midpointY = (primY + localY)/2;
                                         Integer[] Xgenarray = new Integer[((int) (primaryplanet.cordRadius + localplanet.cordRadius))];
-
                                         for (int x = 0; x < Xgenarray.length; x++) {
                                             Xgenarray[x] = (int) midpointX + (((int) ((primaryplanet.cordRadius + localplanet.cordRadius)/2))) + x;
                                         }
@@ -98,14 +94,21 @@ public class Logic {
                                         Collections.shuffle(Arrays.asList(Xgenarray));
                                         Collections.shuffle(Arrays.asList(Ygenarray));
 
-                                        if (planets.contains(primaryplanet) && planets.contains(localplanet) &&
-                                                planets.get(planets.indexOf(primaryplanet)) != null
-                                                && planets.get(planets.indexOf(localplanet)) != null) {
+                                        //double Vel = Math.sqrt(Math.pow(primaryplanet.getVelX(),2) + Math.pow(primaryplanet.getVelY(),2)) + Math.sqrt(Math.pow(localplanet.getVelX(),2) + Math.pow(localplanet.getVelY(),2));
+                                        //double totalvelX = primaryplanet.getVelX() + localplanet.getVelX();
+                                        //double totalvelY = primaryplanet.getVelY() + localplanet.getVelY();
+
+                                        if ((planets.contains(primaryplanet) && planets.contains(localplanet)) &&
+                                                (planets.get(planets.indexOf(primaryplanet)) != null
+                                                        && planets.get(planets.indexOf(localplanet)) != null)) {
                                             tool.removePlanet(localplanet.id);
                                             tool.removePlanet(primaryplanet.id);
                                         }
 
+
                                         for (int p = 0; p < numdebris; p++) {
+                                            // double Xgen = ThreadLocalRandom.current().nextInt((int) (primX - primaryplanet.cordRadius), (int) (primX + primaryplanet.cordRadius));
+                                            //double Ygen = ThreadLocalRandom.current().nextInt((int) (primY - primaryplanet.cordRadius), (int) (primY + primaryplanet.cordRadius));
                                             double Xgen = Xgenarray[p];
                                             double Ygen = Ygenarray[p];
                                             double velXgen;
@@ -114,26 +117,22 @@ public class Logic {
                                             double radgen = radiusremaning / divide;
                                             double UIradgen = UIradiusremaining / divide;
 
-                                            radiusremaning -= radgen;
-                                            UIradiusremaining -= UIradgen;
-
-                                            if (Xgen < midpointX) {
+                                            if (Xgen < primX) {
                                                 //set Vel west
                                                 velXgen = -50 * totalvelX;
                                             } else {
                                                 //set Vel east
-                                                velXgen = 50 * totalvelX;
+                                                velXgen =  50 * totalvelX;
                                             }
-
                                             if (Ygen < midpointY) {
                                                 //set Vel north
-                                                velYgen = -50 * totalvelY;
+                                                velYgen = 4 * Math.abs(totalvelY / numdebris);
                                             } else {
                                                 //set Vel south
-                                                velYgen = 50 * totalvelY ;
+                                                velYgen = 50 * totalvelY;
                                             }
                                             if (radgen > 7) {
-                                                tool.addPlanet(UIradgen, Xgen, Ygen, velXgen, velYgen);
+                                                tool.addPlanet(UUID.randomUUID(), radgen, UIradgen, Xgen, Ygen, velXgen, velYgen);
                                             }
                                         }
                                     }
