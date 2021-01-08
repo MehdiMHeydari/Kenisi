@@ -45,18 +45,6 @@ public class PlanetIndex extends VBox {
         title.getStyleClass().add("planetsIndexHeader");
         tools.getStyleClass().add("planetsIndexTools");
 
-//        Button addButton = new Button();
-//        addButton.setTooltip(new Tooltip("Add"));
-//        Image img = new Image(getClass().getResourceAsStream("/images/plus-square.png"));
-//        ImageView imageView = new ImageView(img);
-//        imageView.setFitWidth(30);
-//        imageView.setFitHeight(30);
-//        addButton.setGraphic(imageView);
-//        addButton.setOnAction(actionEvent -> {
-//            Plan newPlan = new Plan(null);
-//            addPlan(newPlan);
-//        });
-
         Button sortingButton = new Button();
         sortingButton.setTooltip(new Tooltip("Sort"));
         Image img = new Image(getClass().getResourceAsStream("/images/"+sortImages[sortMode]));
@@ -161,10 +149,6 @@ public class PlanetIndex extends VBox {
 
     private class PlansIndexItem extends HBox implements Comparable<PlansIndexItem> {
 
-        private CheckBox selected;
-        private TextField title;
-        private Button info;
-
         private final Plan plan;
 
         @Override
@@ -185,9 +169,9 @@ public class PlanetIndex extends VBox {
         public PlansIndexItem(Plan plan){
             if( plan == null ) throw new IllegalArgumentException("Plan cannot be null");
             this.plan = plan;
-            selected = new CheckBox();
-            title = new TextField(this.plan.getTitle());
-            info = new Button();
+            CheckBox selected = new CheckBox();
+            TextField title = new TextField(this.plan.getTitle());
+            Button info = new Button();
             Image img = new Image(getClass().getResourceAsStream("/images/info.png"));
             ImageView imageView = new ImageView(img);
             imageView.setFitWidth(30);
@@ -197,18 +181,6 @@ public class PlanetIndex extends VBox {
                 da.setActivePlanet(plan);
                 info(primaryStage, name);
             });
-
-//            Button minusButton = new Button();
-//            minusButton.setTooltip(new Tooltip("Minus"));
-//            Image img = new Image(getClass().getResourceAsStream("/images/minus-square.png"));
-//            ImageView imageView = new ImageView(img);
-//            imageView.setFitWidth(30);
-//            imageView.setFitHeight(30);
-//            minusButton.setGraphic(imageView);
-//            minusButton.setOnAction(actionEvent -> {
-//                //Remove planet if clicked
-//                PlanetIndex.this.plansArea.getChildren().remove(PlansIndexItem.this);
-//            });
 
             this.setAlignment(Pos.CENTER);
 
@@ -230,12 +202,6 @@ public class PlanetIndex extends VBox {
             info.setMaxHeight(Double.MAX_VALUE);
             info.prefHeightProperty().bind(this.heightProperty());
             HBox.setMargin(info, new Insets(5,5,5,5));
-
-//            minusButton.setMinWidth(45);
-//            minusButton.setMaxWidth(Double.MAX_VALUE);
-//            minusButton.setMaxHeight(Double.MAX_VALUE);
-//            minusButton.prefHeightProperty().bind(this.heightProperty());
-//            HBox.setMargin(minusButton, new Insets(5,5,5,5));
 
             this.setBorder(new Border(new BorderStroke(Color.BLACK,
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
