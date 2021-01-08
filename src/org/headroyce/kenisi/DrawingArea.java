@@ -68,7 +68,7 @@ public class DrawingArea extends StackPane {
                 gc.fillOval(i.getX() - radius / 2, i.getY() - radius / 2, radius, radius);
             });
             if (mouseHeld) {
-                gc.setFill(Color.BLACK);
+                gc.setFill(Color.WHITE);
                 radius = (2 * Duration.between(time, Instant.now()).toMillis() + 100) / 100.0;
                 gc.fillOval(handler.getX() - radius / 2, handler.getY() - radius / 2, radius, radius);
             }

@@ -1,5 +1,9 @@
+.root {
+    -fx-background-color:rgb(30,30,30);
+}
+
 .button{
-    -fx-background-color:rgba(33, 168, 60, 0.75);
+    -fx-background-color:rgb(138,200,219);
     -fx-text-fill: black;
     -fx-padding: 10px;
     -fx-border-color: black;
@@ -9,28 +13,30 @@
 }
 
 .button:hover {
-    -fx-background-color: rgba(24, 24, 24, 0.75);
+    -fx-background-color: rgb(240, 248, 255);
 }
 
 .button.active {
-    -fx-border-color: black black black rgb(33, 168, 60);
-    -fx-background-color: rgba(24, 24, 24, 0.75);
+    -fx-border-color: white white white white;
+    -fx-background-color: rgb(240, 248, 255);
 }
 
 .planetsIndex {
-    -fx-border-width: 1 1 1 1;
-    -fx-border-color: black;
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: white;
 }
 .planetsIndexHeader {
-    -fx-background-color: rgba(24, 24, 24, 0.75);
-    -fx-text-fill: white;
+    -fx-background-color:rgb(138,200,219);
+    -fx-text-fill: rgb(20,20,20);
     -fx-min-height: 52;
     -fx-font-size: 16pt;
     -fx-alignment: center;
     -fx-font-weight: bold;
 }
 .planetsIndexTools{
-    -fx-background-color: rgba(33, 168, 60, 0.75);
-    -fx-border-width: 1;
-    -fx-border-color: black;
+    -fx-background-color:rgb(30,30,30);
+}
+
+.plansIndexItems {
+    -fx-border-color: white;
 }
